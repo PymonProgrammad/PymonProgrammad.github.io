@@ -1,7 +1,12 @@
+body
+{
+    background-color:darkseagreen;
+}
+
 h1
 {
     text-align: center;
     color: white;
-    background-color: blue;
+    background-color: rgb(70, 70, 230);
     width: 100%;
 }
