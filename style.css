@@ -3,7 +3,7 @@
 body
 {
     display: grid;
-    grid-template-columns: 10em 1fr;
+    grid-template-columns: 20em 1fr;
     grid-template-rows: 5em 1fr;
     height: 100%;
     z-index: 0;
@@ -72,6 +72,7 @@ h2
 {
     font-family: 'Bungee', cursive;
     user-select: none;
+    line-height: 1.2em;
 }
 
 .marge a
