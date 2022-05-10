@@ -110,5 +110,7 @@ nbTokenPar.textContent = "Jetons restants : "+x;
 
 create_table();
 
-contenu.appendChild(scorePar);
-contenu.appendChild(nbTokenPar);
+var controle = document.getElementsByClassName("controle")[0];
+
+controle.appendChild(scorePar);
+controle.appendChild(nbTokenPar);

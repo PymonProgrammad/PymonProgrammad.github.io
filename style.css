@@ -41,10 +41,7 @@ body
 .contenu
 {
     grid-column: 2;
-    grid-row: 2; 
-    padding-left: 30px ;
-    padding-right: 15px ;
-    padding-top: 20px ;
+    grid-row: 2;
 }
 
 h1
