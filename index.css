@@ -28,6 +28,6 @@ table
     margin-right: 20px;
     max-width: 500px;
     max-height: 500px;
-    min-width: 500px;
-    min-height: 500px;
+    min-width: 200px;
+    min-height: 200px;
 }
