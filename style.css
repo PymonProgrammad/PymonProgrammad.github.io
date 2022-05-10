@@ -56,3 +56,11 @@ a:hover
     box-shadow: 0 10px 10px gray;
     user-select: none;
 }
+
+span.material-icons {
+    color: white;
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    font-size: 48px;
+}
