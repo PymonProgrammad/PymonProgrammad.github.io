@@ -87,3 +87,23 @@ h2
     font-weight: bold ;
     font-size: 90%;
 }
+
+.contenu table
+{
+    border-collapse: collapse;
+    background-color: white;
+    user-select: none;
+}
+
+.contenu td
+{
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+}
+
+.contenu td:hover
+{
+    background-color: lightgray;
+}
