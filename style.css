@@ -15,6 +15,7 @@ h1
     vertical-align: middle;
     background-color: rgb(70, 70, 230);
     padding: 20px;
+    margin: 0;
     box-shadow: 0 10px 10px gray;
     user-select: none;
 }
@@ -22,4 +23,17 @@ h1
 h2
 {
     font-family: 'Bungee', cursive;
+}
+
+.marge
+{
+    position: relative;
+    background-color: white;
+    height: 100%;
+    width: 20%;
+    top: -20px;
+    padding-top: 20px;
+    padding-left: 10px;
+    box-shadow: 10px 0 10px gray;
+    z-index: -1;
 }
