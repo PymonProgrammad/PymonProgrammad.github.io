@@ -73,6 +73,7 @@ span.material-icons {
 h2
 {
     font-family: 'Bungee', cursive;
+    user-select: none;
 }
 
 .marge a
@@ -83,5 +84,5 @@ h2
 .marge a:hover
 {
     font-weight: bold ;
-    font-size: 95%;
+    font-size: 90%;
 }
