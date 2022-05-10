@@ -102,8 +102,3 @@ h2
     height: 100px;
     text-align: center;
 }
-
-.contenu td:hover
-{
-    background-color: lightgray;
-}
