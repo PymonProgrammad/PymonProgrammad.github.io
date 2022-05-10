@@ -3,7 +3,7 @@
 body
 {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 350px 1fr;
     grid-template-rows: 78px 1fr;
     height: 100%;
     z-index: 0;
