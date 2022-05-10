@@ -28,6 +28,16 @@ h2
     font-family: 'Bungee', cursive;
 }
 
+a
+{
+    color: black;
+}
+
+a:hover
+{
+    font-weight: bold ;
+}
+
 .marge
 {
     position: relative;
