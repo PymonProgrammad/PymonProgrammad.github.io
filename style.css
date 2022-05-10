@@ -4,7 +4,7 @@ body
 {
     display: grid;
     grid-template-columns: 10em 1fr;
-    grid-template-rows: 3em 1fr;
+    grid-template-rows: 5em 1fr;
     height: 100%;
     z-index: 0;
     background-color:rgb(199, 199, 199);
@@ -50,7 +50,7 @@ h1
     text-align: center;
     font-family: 'Bungee', cursive;
     color: white;
-    line-height: 3em;
+    line-height: 2.5em;
     margin: 0;
     font-size: 32px;
 }
