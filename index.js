@@ -92,10 +92,21 @@ function create_table()
             cell.style.backgroundColor = "white";
             cell.points = points[i][j];
             cell.pos = i * n + j;
+            var cellSize = "10em";
+            cell.style.maxWidth = cellSize;
+            cell.style.maxHeight = cellSize;
+            cell.style.minWidth = cellSize;
+            cell.style.minHeight = cellSize;
         }
 
         tbl.appendChild(row);
     }
+
+    var tblSize = "40em";
+    tbl.style.maxWidth = tblSize;
+    tbl.style.maxHeight = tblSize;
+    tbl.style.minWidth = tblSize;
+    tbl.style.minHeight = tblSize;
 
     contenu.appendChild(tbl);
 }
