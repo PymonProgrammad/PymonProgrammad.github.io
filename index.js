@@ -10,17 +10,25 @@ let p = 10;
 let val_min = -9 ;
 let val_max = 9 ;
 
-let points = [[-6, 9, -2, 5, 0],
-                [8, 2, -7, -6, 0],
-                [-8, 2, -4, -3, 0],
-                [-3, 3, -4, 7, 0],
-                [0, 0, 0, 0, 0]
+let points = [[-6, 9, -2, 5],
+                [8, 2, -7, -6],
+                [-8, 2, -4, -3],
+                [-3, 3, -4, 7]
             ];
+
+let cellSize = 6;
 
 let contenu;    // Stores document's "contenu" div
 let scorePar;
 let nbTokenPar;
 let controle;
+let grille;
+
+let nInput;
+let xInput;
+let pInput;
+let minInput;
+let maxInput;
 
 function clamp(val, min, max)
 {
@@ -55,6 +63,8 @@ function nbConflicts(cell)
             }
         }
     }
+
+    console.log(count);
 
     return count;
 }
@@ -95,10 +105,51 @@ function generatePoints()
     }
 }
 
+function createCell(pos)
+{
+    var newCell = document.createElement("td");
+
+    newCell.points = val_min;
+    newCell.pos = pos;
+    newCell.taken = false;
+    newCell.textContent = newCell.points;
+
+    newCell.style.backgroundColor = "white";
+    newCell.style.maxWidth = cellSize + "em";
+    newCell.style.maxHeight = cellSize + "em";
+    newCell.style.minWidth = cellSize + "em";
+    newCell.style.minHeight = cellSize + "em";
+
+    newCell.addEventListener("click", switchToken);
+    newCell.addEventListener("mouseover", function(event) {
+                                            if (event.target.taken)
+                                                event.target.style.backgroundColor = tokenLightColor;
+                                            else
+                                                event.target.style.backgroundColor = "lightgray";
+                                        });
+    newCell.addEventListener("mouseleave", function(event) {
+                                            if (event.target.taken)
+                                                event.target.style.backgroundColor = tokenColor;
+                                            else
+                                                event.target.style.backgroundColor = "white";
+                                        });
+    newCell.addEventListener("wheel", function(event) {
+                                        if (tokenCount==0)
+                                        {
+                                            var range = val_max - val_min + 1;
+                                            event.target.points += -val_min - event.deltaY / Math.abs(event.deltaY) + range;
+                                            event.target.points = (event.target.points % range) + val_min;
+                                            event.target.textContent = event.target.points;
+                                        }
+                                    });
+
+    return newCell;
+}
+
 function createTable()
 {
-    var tbl = document.createElement("table");
-    tbl.id = "grille";
+    grille = document.createElement("table");
+    grille.id = "grille";
 
     for (var i = 0; i < n; i++)
     {
@@ -145,16 +196,16 @@ function createTable()
             cell.style.minHeight = cellSize + "em";
         }
 
-        tbl.appendChild(row);
+        grille.appendChild(row);
     }
 
     var tblSize = n * cellSize;
-    tbl.style.maxWidth = tblSize + "em";
-    tbl.style.maxHeight = tblSize + "em";
-    tbl.style.minWidth = tblSize + "em";
-    tbl.style.minHeight = tblSize + "em";
+    grille.style.maxWidth = tblSize + "em";
+    grille.style.maxHeight = tblSize + "em";
+    grille.style.minWidth = tblSize + "em";
+    grille.style.minHeight = tblSize + "em";
 
-    contenu.appendChild(tbl);
+    contenu.appendChild(grille);
 
     scorePar.textContent = "Score : 0";
     nbTokenPar.textContent = "Jetons restants : "+x;
@@ -163,18 +214,18 @@ function createTable()
 function generateTable()
 {
     n = getInput("n");
-    document.getElementById("x").max = n * n;
-    document.getElementById("x").defaultValue = n;
+    xInput.max = n * n;
+    xInput.defaultValue = n;
     x = getInput("x");
     p = getInput("p");
     val_min = getInput("val_min");
     val_max = getInput("val_max");
 
-    document.getElementById("n").value = n;
-    document.getElementById("x").value = x;
-    document.getElementById("p").value = p;
-    document.getElementById("val_min").value = val_min;
-    document.getElementById("val_max").value = val_max;
+    nInput.value = n;
+    xInput.value = x;
+    pInput.value = p;
+    minInput.value = val_min;
+    maxInput.value = val_max;
 
     console.log(typeof(n), typeof(x), typeof(p));
     console.log(n, x, p);
@@ -199,10 +250,78 @@ controle.appendChild(nbTokenPar);
 
 createTable();
 
-document.getElementById("n").defaultValue = 4;
-document.getElementById("x").defaultValue = 4;
-document.getElementById("p").defaultValue = 10;
+nInput = document.getElementById("n");
+xInput = document.getElementById("x");
+pInput = document.getElementById("p");
+minInput = document.getElementById("val_min");
+maxInput = document.getElementById("val_max");
 
-document.getElementById("n").value = 4;
-document.getElementById("x").value = 4;
-document.getElementById("p").value = 10;
+nInput.defaultValue = 4;
+xInput.defaultValue = 4;
+pInput.defaultValue = 10;
+minInput.defaultValue = -10;
+maxInput.defaultValue = 10;
+
+nInput.value = nInput.defaultValue;
+xInput.value = xInput.defaultValue;
+pInput.value = pInput.defaultValue;
+minInput.value = minInput.defaultValue;
+maxInput.value = maxInput.defaultValue;
+
+nInput.addEventListener("change", function(event) {
+                                    if (tokenCount != 0) return;
+                                    var newN = getInput("n");
+                                    if (newN > n)
+                                    {
+                                        for (var i=0; i < newN; ++i)
+                                        {
+                                            for (var j=0; j < newN; ++j)
+                                            {
+                                                if (i < points.length && j < points[i].length) grille.childNodes[i].childNodes[j].pos = i * newN + j;
+                                                else 
+                                                {
+                                                    if (i >= points.length)
+                                                    {
+                                                        points.push([]);
+                                                        grille.appendChild(document.createElement("tr"));
+                                                    }
+                                                    points[i].push(val_min);
+                                                    grille.childNodes[i].appendChild(createCell(i*newN+j));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (newN < n)
+                                    {
+                                        for (var i=0; i < points.length; ++i)
+                                        {
+                                            for (var j=0; j < points[i].length; ++j)
+                                            {
+                                                if (i < newN && j < newN) grille.childNodes[i].childNodes[j].pos = i * newN + j;
+                                                else
+                                                {
+                                                    points[i].splice(j, 1);
+                                                    grille.childNodes[i].removeChild(grille.childNodes[i].childNodes[j]);
+                                                    --j;
+                                                }
+                                            }
+                                            if (points[i].length <= 0)
+                                            {
+                                                points.splice(i, 1);
+                                                grille.removeChild(grille.childNodes[i]);
+                                                --i;
+                                            }
+                                        }
+                                    }
+                                    n = newN;
+                                    nInput.value = n;
+
+                                    var tblSize = n * cellSize;
+                                    grille.style.maxWidth = tblSize + "em";
+                                    grille.style.maxHeight = tblSize + "em";
+                                    grille.style.minWidth = tblSize + "em";
+                                    grille.style.minHeight = tblSize + "em";
+
+                                    scorePar.textContent = "Score : " + score;
+                                    nbTokenPar.textContent = "Jetons restants : " + (x-tokenCount);
+                                });
