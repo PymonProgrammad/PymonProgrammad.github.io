@@ -27,7 +27,7 @@ function nbConflicts(cell)
         for (var j=0; j < n; ++j)
         {
             var otherCell = table.childNodes[i].childNodes[j];
-            if (otherCell.pos != cell.pos && (otherCell.style.backgroundColor == tokenColor || otherCell.style.backgroundColor == tokenLightColor))
+            if (otherCell.pos != cell.pos && otherCell.taken)
             {
                 var diffx = (cell.pos % n) - (otherCell.pos % n);
                 var diffy = ~~(cell.pos / n) - ~~(otherCell.pos / n);
@@ -43,12 +43,13 @@ function nbConflicts(cell)
 function switchToken(event)
 {
     var token = event.target;
-    if (token.style.backgroundColor == tokenLightColor || token.style.backgroundColor == tokenColor)
+    if (token.taken)
     {
         score -= token.points;
         score += nbConflicts(token) * p;
         --tokenCount;
         token.style.backgroundColor = "white";
+        token.taken = false;
     }
     else if (tokenCount < x)
     {
@@ -56,6 +57,7 @@ function switchToken(event)
         score -= nbConflicts(token) * p;
         ++tokenCount;
         token.style.backgroundColor = tokenColor;
+        token.taken = true;
     }
     scorePar.textContent = "Score : "+score;
     nbTokenPar.textContent = "Jetons restants : "+(x-tokenCount);
@@ -78,20 +80,22 @@ function create_table()
 
             cell.addEventListener("click", switchToken);
             cell.addEventListener("mouseover", function(event) {
-                                                    if (event.target.style.backgroundColor == tokenColor)
+                                                    if (event.target.taken)
                                                         event.target.style.backgroundColor = tokenLightColor;
-                                                    if (event.target.style.backgroundColor == "white")
+                                                    else
                                                         event.target.style.backgroundColor = "lightgray";
                                                 });
             cell.addEventListener("mouseleave", function(event) {
-                                                    if (event.target.style.backgroundColor == tokenLightColor)
+                                                    if (event.target.taken)
                                                         event.target.style.backgroundColor = tokenColor;
-                                                    if (event.target.style.backgroundColor == "lightgray")
+                                                    else
                                                         event.target.style.backgroundColor = "white";
                                                 });
             cell.style.backgroundColor = "white";
             cell.points = points[i][j];
             cell.pos = i * n + j;
+            cell.taken = false;
+
             var cellSize = "10em";
             cell.style.maxWidth = cellSize;
             cell.style.maxHeight = cellSize;
