@@ -122,6 +122,10 @@ function createTable()
                                                     else
                                                         event.target.style.backgroundColor = "white";
                                                 });
+            cell.addEventListener("wheel", function(event) {
+                                                event.target.points -= event.deltaY / Math.abs(event.deltaY);
+                                                event.target.textContent = event.target.points;
+                                            });
             cell.style.backgroundColor = "white";
             cell.points = points[i][j];
             cell.pos = i * n + j;
