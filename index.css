@@ -12,7 +12,6 @@
     grid-row: 1/3;
     box-shadow: -5px 0 5px gray;
     padding-left: 10px;
-    margin-left: 20px;
 }
 
 h3
@@ -29,6 +28,7 @@ h3
     background-color: white;
     user-select: none;
     margin-bottom: 20px;
+    margin-right: 20px;
 }
 .contenu td
 {
