@@ -10,6 +10,7 @@ body
     background-color:rgb(199, 199, 199);
     margin: 0;
     min-width: 600px;
+    font-family: sans-serif;
 }
 
 .bandeau
@@ -55,17 +56,14 @@ h1
     font-size: 32px;
 }
 
-.bandeau a
-{
+.bandeau a.material-icons {
     grid-column: 1;
-}
-
-span.material-icons {
     color: white;
     position: relative;
     top: 15px;
     left: 10px;
     font-size: 48px;
+    text-decoration: none;
 }
 
 h2

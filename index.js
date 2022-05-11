@@ -93,7 +93,7 @@ function generatePoints()
     }
 }
 
-function create_table()
+function createTable()
 {
     var tbl = document.createElement("table");
     tbl.id = "grille";
@@ -169,7 +169,7 @@ function generateTable()
     tokenCount = 0;
 
     generatePoints();
-    create_table();
+    createTable();
 }
 
 contenu = document.getElementsByClassName("contenu")[0];
@@ -181,7 +181,7 @@ nbTokenPar = document.createElement("p");
 controle.appendChild(scorePar);
 controle.appendChild(nbTokenPar);
 
-create_table();
+createTable();
 
 document.getElementById("n").defaultValue = 4;
 document.getElementById("x").defaultValue = 4;
