@@ -8,15 +8,32 @@ let n = 4;
 let x = 4;
 let p = 10;
 
-let points = [[-6, 9, -2, 5],
-                [8, 2, -7, -6],
-                [-8, 2, -4, -3],
-                [-3, 3, -4, 7]
+let points = [[-6, 9, -2, 5, 0],
+                [8, 2, -7, -6, 0],
+                [-8, 2, -4, -3, 0],
+                [-3, 3, -4, 7, 0],
+                [0, 0, 0, 0, 0]
             ];
 
 let contenu;    // Stores document's "contenu" div
 let scorePar;
 let nbTokenPar;
+let controle;
+
+function clamp(val, min, max)
+{
+    return (val < min) ? min : ((val > max) ? max : val);
+}
+
+function getInput(id)
+{
+    var value = parseInt(document.getElementById(id).value);
+    var minValue = parseInt(document.getElementById(id).min);
+    var maxValue = parseInt(document.getElementById(id).max);
+    value = clamp(value, minValue, maxValue);
+    if (isNaN(value)) value = parseInt(document.getElementById(id).defaultValue);
+    return value;
+}
 
 function nbConflicts(cell)
 {
@@ -63,9 +80,23 @@ function switchToken(event)
     nbTokenPar.textContent = "Jetons restants : "+(x-tokenCount);
 }
 
+function generatePoints()
+{
+    points = [];
+    for (var i=0; i < n; ++i)
+    {
+        points.push([]);
+        for (var j=0; j < n; ++j)
+        {
+            points[i].push(Math.floor(Math.random() * 200 - 100));
+        }
+    }
+}
+
 function create_table()
 {
     var tbl = document.createElement("table");
+    tbl.id = "grille";
 
     for (var i = 0; i < n; i++)
     {
@@ -96,36 +127,66 @@ function create_table()
             cell.pos = i * n + j;
             cell.taken = false;
 
-            var cellSize = "10em";
-            cell.style.maxWidth = cellSize;
-            cell.style.maxHeight = cellSize;
-            cell.style.minWidth = cellSize;
-            cell.style.minHeight = cellSize;
+            var cellSize = 6;
+            cell.style.maxWidth = cellSize + "em";
+            cell.style.maxHeight = cellSize + "em";
+            cell.style.minWidth = cellSize + "em";
+            cell.style.minHeight = cellSize + "em";
         }
 
         tbl.appendChild(row);
     }
 
-    var tblSize = "40em";
-    tbl.style.maxWidth = tblSize;
-    tbl.style.maxHeight = tblSize;
-    tbl.style.minWidth = tblSize;
-    tbl.style.minHeight = tblSize;
+    var tblSize = n * cellSize;
+    tbl.style.maxWidth = tblSize + "em";
+    tbl.style.maxHeight = tblSize + "em";
+    tbl.style.minWidth = tblSize + "em";
+    tbl.style.minHeight = tblSize + "em";
 
     contenu.appendChild(tbl);
+
+    scorePar.textContent = "Score : 0";
+    nbTokenPar.textContent = "Jetons restants : "+x;
+}
+
+function generateTable()
+{
+    n = getInput("n");
+    document.getElementById("x").max = n * n;
+    document.getElementById("x").defaultValue = n;
+    x = getInput("x");
+    p = getInput("p");
+
+    document.getElementById("n").value = n;
+    document.getElementById("x").value = x;
+    document.getElementById("p").value = p;
+
+    console.log(typeof(n), typeof(x), typeof(p));
+    console.log(n, x, p);
+
+    contenu.removeChild(document.getElementById("grille"));
+
+    tokenCount = 0;
+
+    generatePoints();
+    create_table();
 }
 
 contenu = document.getElementsByClassName("contenu")[0];
+controle = document.getElementsByClassName("controle")[0];
 
 scorePar = document.createElement("p");
 nbTokenPar = document.createElement("p");
 
-scorePar.textContent = "Score : 0";
-nbTokenPar.textContent = "Jetons restants : "+x;
+controle.appendChild(scorePar);
+controle.appendChild(nbTokenPar);
 
 create_table();
 
-var controle = document.getElementsByClassName("controle")[0];
+document.getElementById("n").defaultValue = 4;
+document.getElementById("x").defaultValue = 4;
+document.getElementById("p").defaultValue = 10;
 
-controle.appendChild(scorePar);
-controle.appendChild(nbTokenPar);
+document.getElementById("n").value = 4;
+document.getElementById("x").value = 4;
+document.getElementById("p").value = 10;
