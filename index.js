@@ -127,7 +127,9 @@ function createTable()
             cell.addEventListener("wheel", function(event) {
                                                 if (tokenCount==0)
                                                 {
-                                                    event.target.points -= event.deltaY / Math.abs(event.deltaY);
+                                                    var range = val_max - val_min + 1;
+                                                    event.target.points += -val_min - event.deltaY / Math.abs(event.deltaY) + range;
+                                                    event.target.points = (event.target.points % range) + val_min;
                                                     event.target.textContent = event.target.points;
                                                 }
                                             });
