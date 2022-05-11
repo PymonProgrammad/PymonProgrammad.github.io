@@ -7,6 +7,8 @@ let tokenCount = 0;
 let n = 4;
 let x = 4;
 let p = 10;
+let val_min = -9 ;
+let val_max = 9 ;
 
 let points = [[-6, 9, -2, 5, 0],
                 [8, 2, -7, -6, 0],
@@ -88,7 +90,7 @@ function generatePoints()
         points.push([]);
         for (var j=0; j < n; ++j)
         {
-            points[i].push(Math.floor(Math.random() * 200 - 100));
+            points[i].push(Math.floor(Math.random() * (val_max-val_min+1) + val_min));
         }
     }
 }
@@ -163,10 +165,14 @@ function generateTable()
     document.getElementById("x").defaultValue = n;
     x = getInput("x");
     p = getInput("p");
+    val_min = getInput("val_min");
+    val_max = getInput("val_max");
 
     document.getElementById("n").value = n;
     document.getElementById("x").value = x;
     document.getElementById("p").value = p;
+    document.getElementById("val_min").value = val_min;
+    document.getElementById("val_max").value = val_max;
 
     console.log(typeof(n), typeof(x), typeof(p));
     console.log(n, x, p);
