@@ -7,8 +7,8 @@ let tokenCount = 0;
 let n = 4;
 let x = 4;
 let p = 10;
-let val_min = -9 ;
-let val_max = 9 ;
+let val_min = -10 ;
+let val_max = 10 ;
 
 let points = [[-6, 9, -2, 5],
                 [8, 2, -7, -6],
@@ -256,11 +256,11 @@ pInput = document.getElementById("p");
 minInput = document.getElementById("val_min");
 maxInput = document.getElementById("val_max");
 
-nInput.defaultValue = 4;
-xInput.defaultValue = 4;
-pInput.defaultValue = 10;
-minInput.defaultValue = -10;
-maxInput.defaultValue = 10;
+nInput.defaultValue = n;
+xInput.defaultValue = x;
+pInput.defaultValue = p;
+minInput.defaultValue = val_min;
+maxInput.defaultValue = val_max;
 
 nInput.value = nInput.defaultValue;
 xInput.value = xInput.defaultValue;
@@ -269,7 +269,7 @@ minInput.value = minInput.defaultValue;
 maxInput.value = maxInput.defaultValue;
 
 nInput.addEventListener("change", function(event) {
-                                    if (tokenCount != 0) return;
+                                    if (tokenCount != 0) { nInput.value = n; return; }
                                     var newN = getInput("n");
                                     if (newN > n)
                                     {
@@ -315,13 +315,66 @@ nInput.addEventListener("change", function(event) {
                                     }
                                     n = newN;
                                     nInput.value = n;
+                                    xInput.max = n * n;
+                                    xInput.defaultValue = n;
+
+                                    x = clamp(x, xInput.min, xInput.max);
+                                    xInput.value = x;
+                                    nbTokenPar.textContent = "Jetons restants : " + (x-tokenCount);
 
                                     var tblSize = n * cellSize;
                                     grille.style.maxWidth = tblSize + "em";
                                     grille.style.maxHeight = tblSize + "em";
                                     grille.style.minWidth = tblSize + "em";
                                     grille.style.minHeight = tblSize + "em";
+                                });
 
-                                    scorePar.textContent = "Score : " + score;
+xInput.addEventListener("change", function(event) {
+                                    if (tokenCount != 0) { xInput.value = x; return; }
+                                    x = getInput("x");
+                                    xInput.value = x
+                                    
                                     nbTokenPar.textContent = "Jetons restants : " + (x-tokenCount);
+                                });
+
+pInput.addEventListener("change", function(event) {
+                                    if (tokenCount != 0) { pInput.value = p; return; }
+                                    p = getInput("p");
+                                    pInput.value = p;
+                                });
+
+minInput.addEventListener("change", function(event) {
+                                    if (tokenCount != 0) { minInput.value = val_min; return; }
+                                    val_min = getInput("val_min");
+                                    if (val_min > val_max) val_min = val_max;
+                                    minInput.value = val_min;
+                                    for (var i=0; i < n; ++i)
+                                    {
+                                        for (var j=0; j < n; ++j)
+                                        {
+                                            if (grille.childNodes[i].childNodes[j].points < val_min)
+                                            {
+                                                grille.childNodes[i].childNodes[j].points = val_min;
+                                                grille.childNodes[i].childNodes[j].textContent = val_min;
+                                            }
+                                        }
+                                    }
+                                });
+
+maxInput.addEventListener("change", function(event) {
+                                    if (tokenCount != 0) { maxInput.value = val_max; return; }
+                                    val_max = getInput("val_max");
+                                    if (val_min > val_max) val_max = val_min;
+                                    maxInput.value = val_max;
+                                    for (var i=0; i < n; ++i)
+                                    {
+                                        for (var j=0; j < n; ++j)
+                                        {
+                                            if (grille.childNodes[i].childNodes[j].points > val_max)
+                                            {
+                                                grille.childNodes[i].childNodes[j].points = val_max;
+                                                grille.childNodes[i].childNodes[j].textContent = val_max;
+                                            }
+                                        }
+                                    }
                                 });
