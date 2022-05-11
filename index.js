@@ -268,6 +268,9 @@ pInput.value = pInput.defaultValue;
 minInput.value = minInput.defaultValue;
 maxInput.value = maxInput.defaultValue;
 
+minInput.max = val_max;
+maxInput.min = val_min;
+
 nInput.addEventListener("change", function(event) {
                                     if (tokenCount != 0) { nInput.value = n; return; }
                                     var newN = getInput("n");
@@ -346,8 +349,8 @@ pInput.addEventListener("change", function(event) {
 minInput.addEventListener("change", function(event) {
                                     if (tokenCount != 0) { minInput.value = val_min; return; }
                                     val_min = getInput("val_min");
-                                    if (val_min > val_max) val_min = val_max;
                                     minInput.value = val_min;
+                                    maxInput.min = val_min;
                                     for (var i=0; i < n; ++i)
                                     {
                                         for (var j=0; j < n; ++j)
@@ -364,8 +367,8 @@ minInput.addEventListener("change", function(event) {
 maxInput.addEventListener("change", function(event) {
                                     if (tokenCount != 0) { maxInput.value = val_max; return; }
                                     val_max = getInput("val_max");
-                                    if (val_min > val_max) val_max = val_min;
                                     maxInput.value = val_max;
+                                    minInput.max = val_max;
                                     for (var i=0; i < n; ++i)
                                     {
                                         for (var j=0; j < n; ++j)
