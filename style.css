@@ -66,6 +66,10 @@ h1
     text-decoration: none;
 }
 
+.bandeau a.material-icons:hover {
+    color: lightgray;
+}
+
 h2
 {
     font-family: 'Bungee', cursive;
@@ -76,10 +80,11 @@ h2
 .marge a
 {
     color: black;
+    padding: 5px;
 }
 
 .marge a:hover
 {
-    font-weight: bold ;
-    font-size: 90%;
+    box-shadow: 0 0 10px rgb(70, 70, 230);
+    border-radius: 20px;
 }
