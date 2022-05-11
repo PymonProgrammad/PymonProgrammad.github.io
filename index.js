@@ -167,6 +167,7 @@ function generateTable()
     contenu.removeChild(document.getElementById("grille"));
 
     tokenCount = 0;
+    score = 0;
 
     generatePoints();
     createTable();
