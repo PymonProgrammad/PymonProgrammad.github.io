@@ -152,7 +152,8 @@ function createCell(pos, value=Math.round((val_max+val_min)/2))
                                         if (tokenCount==0)
                                         {
                                             var range = val_max - val_min + 1;
-                                            event.target.points += -val_min - event.deltaY / Math.abs(event.deltaY) + range;
+                                            var delta = (event.deltaY == 0) ? 0 : event.deltaY / Math.abs(event.deltaY);
+                                            event.target.points += -val_min - delta + range;
                                             event.target.points = (event.target.points % range) + val_min;
                                             event.target.textContent = event.target.points;
                                         }
