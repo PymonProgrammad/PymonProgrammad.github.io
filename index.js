@@ -120,7 +120,7 @@ function generatePoints()
     }
 }
 
-function createCell(pos, value=val_min)
+function createCell(pos, value=Math.round((val_max+val_min)/2))
 {
     var newCell = document.createElement("td");
 
