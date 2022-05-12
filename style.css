@@ -66,6 +66,7 @@ h1
     text-decoration: none;
     height: 48px;
     width: 48px;
+    user-select: none;
 }
 
 .bandeau a.material-icons:hover {
