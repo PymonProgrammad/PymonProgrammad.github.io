@@ -30,8 +30,6 @@ let pInput;
 let minInput;
 let maxInput;
 
-let conflictColoration = false;
-
 function clamp(val, min, max)
 {
     return (val < min) ? min : ((val > max) ? max : val);
@@ -137,9 +135,10 @@ function switchToken(event)
         var childs = controle.querySelectorAll("input");
         for (var i = 0; i < childs.length; ++i)
         {
-            if (childs[i].id != "color")
+            if (childs[i].id != "color" && childs[i].id != "clear")
                 childs[i].disabled = true;
         }
+        document.getElementById("modif").checked = false;
     }
     else
     {
@@ -185,7 +184,7 @@ function createCell(pos, value=Math.round((val_max+val_min)/2))
                                                 event.target.style.backgroundColor = tokenLightColor;
                                             else
                                                 event.target.style.backgroundColor = "lightgray";
-                                            if (conflictColoration)
+                                            if (document.getElementById("color").checked)
                                                 colorConflicts(event.target, "lightyellow", "orange");
                                         });
     newCell.addEventListener("mouseleave", function(event) {
@@ -196,7 +195,7 @@ function createCell(pos, value=Math.round((val_max+val_min)/2))
                                             colorConflicts(event.target, "white", tokenColor);
                                         });
     newCell.addEventListener("wheel", function(event) {
-                                        if (tokenCount==0)
+                                        if (tokenCount==0 && document.getElementById("modif").checked)
                                         {
                                             var range = val_max - val_min + 1;
                                             var delta = (event.deltaY == 0) ? 0 : event.deltaY / Math.abs(event.deltaY);
