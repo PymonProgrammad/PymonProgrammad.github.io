@@ -20,6 +20,13 @@ h3
     text-align: center;
 }
 
+.scroll
+{
+    overflow: scroll;
+    min-height: 800;
+    width: auto;
+}
+
 .contenu table
 {
     grid-column: 1;

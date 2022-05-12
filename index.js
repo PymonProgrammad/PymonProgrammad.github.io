@@ -261,7 +261,7 @@ function generateTable()
     nbTokenPar.textContent = "Jetons restants : "+(x-tokenCount);
 }
 
-contenu = document.getElementsByClassName("contenu")[0];
+contenu = document.getElementsByClassName("scroll")[0];
 controle = document.getElementsByClassName("controle")[0];
 
 scorePar = document.createElement("p");
