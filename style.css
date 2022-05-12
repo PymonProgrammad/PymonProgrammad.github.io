@@ -64,6 +64,8 @@ h1
     left: 10px;
     font-size: 48px;
     text-decoration: none;
+    height: 48px;
+    width: 48px;
 }
 
 .bandeau a.material-icons:hover {
