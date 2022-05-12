@@ -184,6 +184,7 @@ function createTable()
     grille.style.maxHeight = tblSize + "em";
     grille.style.minWidth = tblSize + "em";
     grille.style.minHeight = tblSize + "em";
+    grille.style.margin = "auto" ;
 
     contenu.appendChild(grille);
 
