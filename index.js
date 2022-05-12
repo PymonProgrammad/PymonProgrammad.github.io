@@ -45,6 +45,16 @@ function getInput(id)
     return value;
 }
 
+function conflict(cell1, cell2)
+{
+    if (cell1.pos == cell2.pos) return false;
+
+    var diffx = (cell1.pos % n) - (cell2.pos % n);
+    var diffy = ~~(cell1.pos / n) - ~~(cell2.pos / n);
+
+    return diffx == 0 || diffy == 0 || diffx == diffy || diffx == -diffy;
+}
+
 function nbConflicts(cell)
 {
     var count = 0;
@@ -54,17 +64,48 @@ function nbConflicts(cell)
         for (var j=0; j < n; ++j)
         {
             var otherCell = table.childNodes[i].childNodes[j];
-            if (otherCell.pos != cell.pos && otherCell.taken)
-            {
-                var diffx = (cell.pos % n) - (otherCell.pos % n);
-                var diffy = ~~(cell.pos / n) - ~~(otherCell.pos / n);
-
-                if (diffx == 0 || diffy == 0 || diffx == diffy || diffx == -diffy) count++;
-            }
+            if (otherCell.taken && conflict(cell, otherCell)) count++;
         }
     }
 
     return count;
+}
+
+function colorConflicts(cell, color, tColor)
+{
+    var x = cell.pos % n;
+    var y = Math.floor(cell.pos / n);
+
+    for (var i=0; i < n; ++i)
+    {
+        var otherCell = grille.childNodes[y].childNodes[i];
+        if (y * n + i != cell.pos)
+            otherCell.style.backgroundColor = otherCell.taken ? tColor : color;
+        otherCell = grille.childNodes[i].childNodes[x];
+        if (i * n + x != cell.pos)
+            otherCell.style.backgroundColor = otherCell.taken ? tColor : color;;
+    }
+
+    var i = y;
+    var j = x;
+    while (i > 0 && j > 0) { --i; --j;}
+    while (i < n && j < n)
+    {
+        var otherCell = grille.childNodes[i].childNodes[j];
+        if (i * n + j != cell.pos)
+            otherCell.style.backgroundColor = otherCell.taken ? tColor : color;
+        ++i; ++j;
+    }
+    
+    i = y; j = x;
+    while (i > 0 && j < n - 1) { --i; ++j;}
+    while (i < n && j >= 0)
+    {
+        var otherCell = grille.childNodes[i].childNodes[j];
+        if (i * n + j != cell.pos)
+            otherCell.style.backgroundColor = otherCell.taken ? tColor : color;
+        ++i; --j;
+    }
 }
 
 function switchToken(event)
@@ -141,12 +182,14 @@ function createCell(pos, value=Math.round((val_max+val_min)/2))
                                                 event.target.style.backgroundColor = tokenLightColor;
                                             else
                                                 event.target.style.backgroundColor = "lightgray";
+                                            colorConflicts(event.target, "lightyellow", "orange");
                                         });
     newCell.addEventListener("mouseleave", function(event) {
                                             if (event.target.taken)
                                                 event.target.style.backgroundColor = tokenColor;
                                             else
                                                 event.target.style.backgroundColor = "white";
+                                            colorConflicts(event.target, "white", tokenColor);
                                         });
     newCell.addEventListener("wheel", function(event) {
                                         if (tokenCount==0)
