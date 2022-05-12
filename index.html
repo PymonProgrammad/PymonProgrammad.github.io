@@ -21,25 +21,34 @@
     <div class="contenu">
         <h3>Testez le problème de l'échiquier !</h3>
         <div class="controle">
-            <form>
-                <p>Taille :
-                    <input type="number" value="4" size="1" min="1" max="10" id="n" required>
-                </p>
-                <p>Nombre de jetons :
-                    <input type="number" value="4" size="1" min="1" max="16" id="x" required>
-                </p>
-                <p>Pénalité :
-                    <input type="number" value="10" size="2" min="0" id="p" required>
-                </p>
-                <p> Valeur Minimum :
-                    <input type="number" value="-9" size="2" min="-100" max="100" id="val_min" required>
-                    </br>Valeur Maximum :
-                    <input type="number" value="9" size="2" min="-100" max="100" id="val_max" required>
-                </p>
-                <p>
-                    <input type="button" value="Valeurs aléatoires" accesskey="g" onclick="generateTable()">
-                </p>
-            </form>
+            <table>
+                <tr>
+                    <th colspan="2">Paramètres :</th>
+                </tr>
+                <tr>
+                    <td>Taille :</td>
+                    <td><input type="number" value="4" size="1" min="1" max="10" id="n" required></td>
+                </tr>
+                <tr>
+                    <td>Nombre de jetons :</td>
+                    <td><input type="number" value="4" size="1" min="1" max="16" id="x" required></td>
+                </tr>
+                <tr>
+                    <td>Pénalité :</td>
+                    <td><input type="number" value="10" size="2" min="0" id="p" required></td>
+                </tr>
+                <tr>
+                    <td>Valeur Minimum :</td>
+                    <td><input type="number" value="-9" size="2" min="-100" max="100" id="val_min" required></td>
+                </tr>
+                <tr>
+                    <td>Valeur Maximum :</td>
+                    <td><input type="number" value="9" size="2" min="-100" max="100" id="val_max" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" value="Valeurs aléatoires" accesskey="g" onclick="generateTable()"></td>
+                </tr>
+            </table>
         </div>
     </div>
 
