@@ -403,4 +403,26 @@ maxInput.addEventListener("change", function(event) {
                                     }
                                 });
 
-document.getElementById("color").addEventListener("change", function(event) { conflictColoration = !conflictColoration; });
+document.getElementById("clear").addEventListener("click", function(event) {
+                                                                for (var i=0; i < n; ++i)
+                                                                {
+                                                                    for (var j=0; j < n; ++j)
+                                                                    {
+                                                                        if(grille.childNodes[i].childNodes[j].taken)
+                                                                        {
+                                                                            grille.childNodes[i].childNodes[j].taken = false;
+                                                                            grille.childNodes[i].childNodes[j].style.backgroundColor = "white";
+                                                                        }
+                                                                    }
+                                                                }
+                                                                tokenCount = 0;
+                                                                score = 0;
+                                                                scorePar.textContent = "Score : 0";
+                                                                nbTokenPar.textContent = "Jetons restants : "+x;
+                                                                
+                                                                var childs = controle.querySelectorAll("input");
+                                                                for (var i = 0; i < childs.length; ++i)
+                                                                {
+                                                                    childs[i].disabled = false;
+                                                                }
+                                                            });
