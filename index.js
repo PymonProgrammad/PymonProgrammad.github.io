@@ -30,6 +30,8 @@ let pInput;
 let minInput;
 let maxInput;
 
+let conflictColoration = false;
+
 function clamp(val, min, max)
 {
     return (val < min) ? min : ((val > max) ? max : val);
@@ -135,7 +137,8 @@ function switchToken(event)
         var childs = controle.querySelectorAll("input");
         for (var i = 0; i < childs.length; ++i)
         {
-            childs[i].disabled = true;
+            if (childs[i].id != "color")
+                childs[i].disabled = true;
         }
     }
     else
@@ -182,7 +185,8 @@ function createCell(pos, value=Math.round((val_max+val_min)/2))
                                                 event.target.style.backgroundColor = tokenLightColor;
                                             else
                                                 event.target.style.backgroundColor = "lightgray";
-                                            colorConflicts(event.target, "lightyellow", "orange");
+                                            if (conflictColoration)
+                                                colorConflicts(event.target, "lightyellow", "orange");
                                         });
     newCell.addEventListener("mouseleave", function(event) {
                                             if (event.target.taken)
@@ -399,3 +403,5 @@ maxInput.addEventListener("change", function(event) {
                                         }
                                     }
                                 });
+
+document.getElementById("color").addEventListener("change", function(event) { conflictColoration = !conflictColoration; });
