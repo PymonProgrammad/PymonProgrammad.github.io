@@ -3,7 +3,6 @@
     display: grid;
     grid-template-columns: 1fr 17em;
     grid-template-rows: 50px 1fr;
-    padding-left: 30px;
 }
 
 .controle
@@ -18,6 +17,7 @@ h3
 {
     grid-column: 1;
     grid-row: 1;
+    text-align: center;
 }
 
 .contenu table
@@ -25,10 +25,7 @@ h3
     grid-column: 1;
     grid-row: 2;
     border-collapse: collapse;
-    background-color: white;
     user-select: none;
-    margin-bottom: 20px;
-    margin-right: 20px;
 }
 .contenu td
 {
