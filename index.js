@@ -21,25 +21,25 @@ let INIT_POINTS = [
 
 // ================== HTML ELEMENTS =====================
 
-// ------------ "contenu" ("scroll") Div ----------------
-let Contenu = document.getElementById("scroll");
+// ------------------ "scroll" Div ----------------------
+let scrollDiv = document.getElementById("scroll");
 // --- Created
-let Grille = document.createElement("table");
+let grilleTbl = document.createElement("table");
 // ------------------- "controle" Div -------------------
-let Controle = document.getElementById("controle");
+let controleDiv = document.getElementById("controle");
 // --- Gotten
-let NInput = document.getElementById("n");
-let XInput = document.getElementById("x");
-let PInput = document.getElementById("p");
-let MinInput = document.getElementById("val_min");
-let MaxInput = document.getElementById("val_max");
-let GenerBtn = document.getElementById("random");
-let ClearBtn = document.getElementById("clear");
-let ColorCheck = document.getElementById("color");
-let ModifCheck = document.getElementById("modif");
+let nInput = document.getElementById("n");
+let xInput = document.getElementById("x");
+let pInput = document.getElementById("p");
+let minInput = document.getElementById("val_min");
+let maxInput = document.getElementById("val_max");
+let generBtn = document.getElementById("random");
+let clearBtn = document.getElementById("clear");
+let colorCheck = document.getElementById("color");
+let modifCheck = document.getElementById("modif");
 // --- Created
-let ScorePar = document.createElement("p");
-let TokenNbPar = document.createElement("p");
+let scorePar = document.createElement("p");
+let tokenNbPar = document.createElement("p");
 // ------------------------------------------------------
 
 
@@ -56,7 +56,7 @@ let val_max = 10;
 let score = 0;
 let tokenCount = 0;
 
-let HoveredCell = null;
+let hoveredCell = null;
 // ------------------------------------------------------
 
 
@@ -68,24 +68,24 @@ function clamp(value, min, max)
 	return (value < min) ? min : ((value > max) ? max : value);
 }
 // --------------- "Grille" Computations ----------------
-function conflict(Cell1, Cell2)
+function conflict(cell1, cell2)
 {
-	if (Cell1.x == Cell2.x && Cell1.y == Cell2.y) return false;
+	if (cell1.x == cell2.x && cell1.y == cell2.y) return false;
 	
-	var diffx = Cell1.x - Cell2.x;
-	var diffy = Cell1.y - Cell2.y;
-	return (Cell1.x == Cell2.x || Cell1.y == Cell2.y || diffx == diffy || diffx == -diffy);
+	var diffx = cell1.x - cell2.x;
+	var diffy = cell1.y - cell2.y;
+	return (cell1.x == cell2.x || cell1.y == cell2.y || diffx == diffy || diffx == -diffy);
 }
 
-function conflictCount(Cell)
+function conflictCount(cell)
 {
 	var count = 0;
 	for (var i=0; i < n; ++i)
 	{
 		for (var j=0; j < n; ++j)
 		{
-			var OtherCell = Grille.childNodes[i].childNodes[j];
-			if (taken(OtherCell) && conflict(Cell, OtherCell)) ++count;
+			var otherCell = grilleTbl.childNodes[i].childNodes[j];
+			if (taken(otherCell) && conflict(cell, otherCell)) ++count;
 		}
 	}
 	return count;
@@ -107,55 +107,55 @@ function getInput(inputElement)
 // ------------------ Output Functions ------------------
 function updatePars()
 {
-	ScorePar.textContent = "Score : " + score;
-	TokenNbPar.textContent = "Jetons restants : " + (x - tokenCount);
-	if (tokenCount == x) TokenNbPar.style.color = "red";
-	else TokenNbPar.style.color = "black";
+	scorePar.textContent = "Score : " + score;
+	tokenNbPar.textContent = "Jetons restants : " + (x - tokenCount);
+	if (tokenCount == x) tokenNbPar.style.color = "red";
+	else tokenNbPar.style.color = "black";
 }
 
 function updateInputState()
 {
-	var inputsToDisable = [NInput, XInput, PInput, MinInput, MaxInput, GenerBtn, ModifCheck];
+	var inputsToDisable = [nInput, xInput, pInput, minInput, maxInput, generBtn, modifCheck];
 	for (var i=0; i < inputsToDisable.length; ++i)
 		inputsToDisable[i].disabled = (tokenCount > 0);
-	if (tokenCount > 0) ModifCheck.checked = false;
+	if (tokenCount > 0) modifCheck.checked = false;
 }
 
-function colorConflicts(Cell, cellColor, tokenColor)
+function colorConflicts(cell, cellColor, tokenColor)
 {
-	var OtherCell;
+	var otherCell;
 	
 	for (var i=0; i < n; ++i)
 	{
-		OtherCell = Grille.childNodes[Cell.y].childNodes[i];
-		if (i != Cell.x)
+		otherCell = grilleTbl.childNodes[cell.y].childNodes[i];
+		if (i != cell.x)
 		{
-			OtherCell.style.backgroundColor = taken(OtherCell) ? tokenColor : cellColor;
+			otherCell.style.backgroundColor = taken(otherCell) ? tokenColor : cellColor;
 		}
-		OtherCell = Grille.childNodes[i].childNodes[Cell.x];
-		if (i != Cell.y)
-			OtherCell.style.backgroundColor = taken(OtherCell) ? tokenColor : cellColor;
+		otherCell = grilleTbl.childNodes[i].childNodes[cell.x];
+		if (i != cell.y)
+			otherCell.style.backgroundColor = taken(otherCell) ? tokenColor : cellColor;
 	}
 	
 	var i, j;
 	
-	i = Cell.y; j = Cell.x;
+	i = cell.y; j = cell.x;
 	while (i > 0 && j > 0) { --i; --j; }
 	while (i < n && j < n)
 	{
-		OtherCell = Grille.childNodes[i].childNodes[j];
-		if (i != Cell.y)
-			OtherCell.style.backgroundColor = taken(OtherCell) ? tokenColor : cellColor;
+		otherCell = grilleTbl.childNodes[i].childNodes[j];
+		if (i != cell.y)
+			otherCell.style.backgroundColor = taken(otherCell) ? tokenColor : cellColor;
 		++i; ++j;
 	}
 	
-	i = Cell.y; j = Cell.x;
+	i = cell.y; j = cell.x;
 	while (i > 0 && j < n - 1) { --i; ++j; }
 	while (i < n && j >= 0)
 	{
-		OtherCell = Grille.childNodes[i].childNodes[j];
-		if (i != Cell.y)
-			OtherCell.style.backgroundColor = taken(OtherCell) ? tokenColor : cellColor;
+		otherCell = grilleTbl.childNodes[i].childNodes[j];
+		if (i != cell.y)
+			otherCell.style.backgroundColor = taken(otherCell) ? tokenColor : cellColor;
 		++i; --j;
 	}
 }
@@ -168,19 +168,19 @@ function colorConflicts(Cell, cellColor, tokenColor)
 function cellClicked(event)
 // Add / Remove token on that cell
 {
-	var Cell = event.target;
-	if (taken(Cell))
+	var cell = event.target;
+	if (taken(cell))
 	{
-		score -= parseInt(Cell.textContent);
-		score += conflictCount(Cell) * p;
-		Cell.style.backgroundColor = CELL_COLOR;
+		score -= parseInt(cell.textContent);
+		score += conflictCount(cell) * p;
+		cell.style.backgroundColor = CELL_COLOR;
 		--tokenCount;
 	}
 	else if (tokenCount < x)
 	{
-		score += parseInt(Cell.textContent);
-		score -= conflictCount(Cell) * p;
-		Cell.style.backgroundColor = TOKEN_COLOR;
+		score += parseInt(cell.textContent);
+		score -= conflictCount(cell) * p;
+		cell.style.backgroundColor = TOKEN_COLOR;
 		++tokenCount;
 	}
 	updatePars();
@@ -189,41 +189,41 @@ function cellClicked(event)
 
 function cellHovered(event)
 {
-	var Cell = event.target;
-	if (taken(Cell))
-		Cell.style.backgroundColor = TOKEN_HOVER_COLOR;
+	var cell = event.target;
+	if (taken(cell))
+		cell.style.backgroundColor = TOKEN_HOVER_COLOR;
 	else
-		Cell.style.backgroundColor = CELL_HOVER_COLOR;
-	if (ColorCheck.checked)
-		colorConflicts(Cell, CELL_CONFLICT_COLOR, TOKEN_CONFLICT_COLOR);
-	HoveredCell = Cell;
+		cell.style.backgroundColor = CELL_HOVER_COLOR;
+	if (colorCheck.checked)
+		colorConflicts(cell, CELL_CONFLICT_COLOR, TOKEN_CONFLICT_COLOR);
+	hoveredCell = cell;
 }
 
 function cellLeft(event)
 {
-	var Cell = event.target;
-	if (taken(Cell))
-		Cell.style.backgroundColor = TOKEN_COLOR;
+	var cell = event.target;
+	if (taken(cell))
+		cell.style.backgroundColor = TOKEN_COLOR;
 	else
-		Cell.style.backgroundColor = CELL_COLOR;
-	colorConflicts(Cell, CELL_COLOR, TOKEN_COLOR);
-	HoveredCell = null;
+		cell.style.backgroundColor = CELL_COLOR;
+	colorConflicts(cell, CELL_COLOR, TOKEN_COLOR);
+	hoveredCell = null;
 }
 
 function cellWheeled(event)
 // Changes Cell's value
 {
-	var Cell = event.target;
+	var cell = event.target;
 	
-	if (tokenCount > 0 || !ModifCheck.checked) return;
+	if (tokenCount > 0 || !modifCheck.checked) return;
 	
 	var range = val_max - val_min + 1;
 	var delta = (event.deltaY == 0) ? 0 : event.deltaY / Math.abs(event.deltaY);
-	var newValue = parseInt(Cell.textContent);
+	var newValue = parseInt(cell.textContent);
 	newValue -= val_min;
 	newValue += range - delta;
 	newValue = (newValue % range) + val_min;
-	Cell.textContent = newValue;
+	cell.textContent = newValue;
 }
 // -------------------- Inputs Events -------------------
 function generate(event)
@@ -235,7 +235,7 @@ function generate(event)
 	{
 		for (var j=0; j < n; ++j)
 		{
-			Grille.childNodes[i].childNodes[j].textContent = Math.floor(Math.random() * range + val_min);
+			grilleTbl.childNodes[i].childNodes[j].textContent = Math.floor(Math.random() * range + val_min);
 		}
 	}
 }
@@ -246,14 +246,14 @@ function clear(event)
 	{
 		for (var j=0; j < n; ++j)
 		{
-			if (taken(Grille.childNodes[i].childNodes[j]))
+			if (taken(grilleTbl.childNodes[i].childNodes[j]))
 			{
-				Grille.childNodes[i].childNodes[j].style.backgroundColor = CELL_COLOR;
+				grilleTbl.childNodes[i].childNodes[j].style.backgroundColor = CELL_COLOR;
 			}
 		}
 	}
-	if (HoveredCell != null && HoveredCell.style.backgroundColor == CELL_COLOR)
-		HoveredCell.style.backgroundColor = CELL_HOVER_COLOR;
+	if (hoveredCell != null && hoveredCell.style.backgroundColor == CELL_COLOR)
+		hoveredCell.style.backgroundColor = CELL_HOVER_COLOR;
 	score = 0;
 	tokenCount = 0;
 	updatePars();
@@ -262,20 +262,20 @@ function clear(event)
 
 function updateN(event)
 {
-	var newN = getInput(NInput);
+	var newN = getInput(nInput);
 	if (newN > n)
 	{
 		for (var i=0; i < (newN - n); ++i)
 		{
-			Grille.appendChild(document.createElement("tr"));
+			grilleTbl.appendChild(document.createElement("tr"));
 			for (var j=0; j < n; ++j)
 			{
-				Grille.childNodes[j].appendChild(createCell(n+i, j));
-				Grille.childNodes[n+i].appendChild(createCell(j, n+i));
+				grilleTbl.childNodes[j].appendChild(createCell(n+i, j));
+				grilleTbl.childNodes[n+i].appendChild(createCell(j, n+i));
 			}
 			for (var j=0; j < (newN - n); ++j)
 			{
-				Grille.childNodes[n+i].appendChild(createCell(n+j, n+i));
+				grilleTbl.childNodes[n+i].appendChild(createCell(n+j, n+i));
 			}
 		}
 	}
@@ -285,22 +285,22 @@ function updateN(event)
 		{
 			for (var j=0; j < newN; ++j)
 			{
-				Grille.childNodes[j].removeChild(Grille.childNodes[j].childNodes[newN]);
+				grilleTbl.childNodes[j].removeChild(grilleTbl.childNodes[j].childNodes[newN]);
 			}
 		}
 		for (var i=0; i < (n - newN); ++i)
 		{
-			Grille.removeChild(Grille.childNodes[newN]);
+			grilleTbl.removeChild(grilleTbl.childNodes[newN]);
 		}
 	}
 	n = newN;
-	NInput.value = n;
-	XInput.max = n * n;
-	if (XInput.value == XInput.defaultValue) x = n;
-	XInput.defaultValue = n;
+	nInput.value = n;
+	xInput.max = n * n;
+	if (xInput.value == xInput.defaultValue) x = n;
+	xInput.defaultValue = n;
 	
-	x = clamp(x, XInput.min, XInput.max);
-	XInput.value = x;
+	x = clamp(x, xInput.min, xInput.max);
+	xInput.value = x;
 	
 	updatePars();
 	setGrilleSize();
@@ -308,29 +308,29 @@ function updateN(event)
 
 function updateX(event)
 {
-	x = getInput(XInput);
-	XInput.value = x;
+	x = getInput(xInput);
+	xInput.value = x;
 	updatePars();
 }
 
 function updateP(event)
 {
-	p = getInput(PInput);
-	PInput.value = p;
+	p = getInput(pInput);
+	pInput.value = p;
 }
 
 function updateMin(event)
 {
-	val_min = getInput(MinInput);
-	MinInput.value = val_min;
-	MaxInput.min = val_min;
+	val_min = getInput(minInput);
+	minInput.value = val_min;
+	maxInput.min = val_min;
 	for (var i=0; i < n; ++i)
 	{
 		for (var j=0; j < n; ++i)
 		{
-			if (parseInt(Grille.childNodes[i].childNodes[j].textContent) < val_min)
+			if (parseInt(grilleTbl.childNodes[i].childNodes[j].textContent) < val_min)
 			{
-				Grille.childNodes[i].childNodes[j].textContent = val_min;
+				grilleTbl.childNodes[i].childNodes[j].textContent = val_min;
 			}
 		}
 	}
@@ -338,16 +338,16 @@ function updateMin(event)
 
 function updateMax(event)
 {
-	val_max = getInput(MaxInput);
-	MaxInput.value = val_max;
-	MinInput.max = val_max;
+	val_max = getInput(maxInput);
+	maxInput.value = val_max;
+	minInput.max = val_max;
 	for (var i=0; i < n; ++i)
 	{
 		for (var j=0; j < n; ++i)
 		{
-			if (parseInt(Grille.childNodes[i].childNodes[j].textContent) > val_max)
+			if (parseInt(grilleTbl.childNodes[i].childNodes[j].textContent) > val_max)
 			{
-				Grille.childNodes[i].childNodes[j].textContent = val_max;
+				grilleTbl.childNodes[i].childNodes[j].textContent = val_max;
 			}
 		}
 	}
@@ -355,11 +355,11 @@ function updateMax(event)
 
 function updateColor(event)
 {
-	if (HoveredCell == null) return;
+	if (hoveredCell == null) return;
 	if (event.target.checked)
-		colorConflicts(HoveredCell, CELL_CONFLICT_COLOR, TOKEN_CONFLICT_COLOR);
+		colorConflicts(hoveredCell, CELL_CONFLICT_COLOR, TOKEN_CONFLICT_COLOR);
 	else
-		colorConflicts(HoveredCell, CELL_COLOR, TOKEN_COLOR);
+		colorConflicts(hoveredCell, CELL_COLOR, TOKEN_COLOR);
 }
 // ------------------------------------------------------
 
@@ -369,68 +369,68 @@ function updateColor(event)
 // ------------------ Cell Functions --------------------
 function createCell(x, y, value=Math.round((val_max+val_min)/2))
 {
-	var NewCell = document.createElement("td");
+	var newCell = document.createElement("td");
 	
-	NewCell.textContent = value;
-	NewCell.x = x;
-	NewCell.y = y;
+	newCell.textContent = value;
+	newCell.x = x;
+	newCell.y = y;
 	
-	NewCell.style.backgroundColor = CELL_COLOR;
-	setCellSize(NewCell);
+	newCell.style.backgroundColor = CELL_COLOR;
+	setCellSize(newCell);
 	
-	NewCell.addEventListener("click", cellClicked);
-	NewCell.addEventListener("mouseover", cellHovered);
-	NewCell.addEventListener("mouseleave", cellLeft);
-	NewCell.addEventListener("wheel", cellWheeled);
+	newCell.addEventListener("click", cellClicked);
+	newCell.addEventListener("mouseover", cellHovered);
+	newCell.addEventListener("mouseleave", cellLeft);
+	newCell.addEventListener("wheel", cellWheeled);
 	
-	return NewCell;
+	return newCell;
 }
 
-function setCellSize(Cell)
+function setCellSize(cell)
 {
-	Cell.style.minWidth = CELL_SIZE + "em";
-	Cell.style.maxWidth = CELL_SIZE + "em";
-	Cell.style.minHeight = CELL_SIZE + "em";
-	Cell.style.maxHeight = CELL_SIZE + "em";
+	cell.style.minWidth = CELL_SIZE + "em";
+	cell.style.maxWidth = CELL_SIZE + "em";
+	cell.style.minHeight = CELL_SIZE + "em";
+	cell.style.maxHeight = CELL_SIZE + "em";
 }
 
-function taken(Cell)
+function taken(cell)
 {
-	var bgColor = Cell.style.backgroundColor;
+	var bgColor = cell.style.backgroundColor;
 	return (bgColor == TOKEN_COLOR || bgColor == TOKEN_HOVER_COLOR || bgColor == TOKEN_CONFLICT_COLOR);
 }
 
-function points(Cell)
+function points(cell)
 {
-	return parseInt(Cell.textContent);
+	return parseInt(cell.textContent);
 }
 // ----------------- Table Functions --------------------
 function initGrille()
 {
-	Grille.id = "grille";
+	grilleTbl.id = "grille";
 	
 	for (var i=0; i < n; ++i)
 	{
-		var Row = document.createElement("tr");
-		Grille.appendChild(Row);
+		var row = document.createElement("tr");
+		grilleTbl.appendChild(row);
 		for (var j=0; j < n; ++j)
 		{
-			var Cell = createCell(j, i, INIT_POINTS[i][j]);
-			Row.appendChild(Cell);
+			var cell = createCell(j, i, INIT_POINTS[i][j]);
+			row.appendChild(cell);
 		}
 	}
 	
 	setGrilleSize();
-	grille.style.margin = "auto";
+	grilleTbl.style.margin = "auto";
 }
 
 function setGrilleSize()
 {
 	var grilleSize = n * CELL_SIZE;
-	Grille.style.minWidth = grilleSize + "em";
-	Grille.style.maxWidth = grilleSize + "em";
-	Grille.style.minHeight = grilleSize + "em";
-	Grille.style.maxHeight = grilleSize + "em";
+	grilleTbl.style.minWidth = grilleSize + "em";
+	grilleTbl.style.maxWidth = grilleSize + "em";
+	grilleTbl.style.minHeight = grilleSize + "em";
+	grilleTbl.style.maxHeight = grilleSize + "em";
 }
 //-------------------------------------------------------
 
@@ -438,40 +438,40 @@ function setGrilleSize()
 // ================ *** MAIN SCRIPT *** =================
 
 // Appending Childs
-Contenu.appendChild(Grille);
+scrollDiv.appendChild(grilleTbl);
 
-Controle.appendChild(ScorePar);
-Controle.appendChild(TokenNbPar);
+controleDiv.appendChild(scorePar);
+controleDiv.appendChild(tokenNbPar);
 
 // Initialisation
 updatePars();
 
 initGrille();
 
-NInput.defaultValue = n;
-XInput.defaultValue = x;
-PInput.defaultValue = p;
-MinInput.defaultValue = val_min;
-MaxInput.defaultValue = val_max;
+nInput.defaultValue = n;
+xInput.defaultValue = x;
+pInput.defaultValue = p;
+minInput.defaultValue = val_min;
+maxInput.defaultValue = val_max;
 
-NInput.value = NInput.defaultValue;
-XInput.value = XInput.defaultValue;
-PInput.value = PInput.defaultValue;
-MinInput.value = MinInput.defaultValue;
-MaxInput.value = MaxInput.defaultValue;
+nInput.value = nInput.defaultValue;
+xInput.value = xInput.defaultValue;
+pInput.value = pInput.defaultValue;
+minInput.value = minInput.defaultValue;
+maxInput.value = maxInput.defaultValue;
 
-MinInput.max = val_max;
-MaxInput.min = val_min;
+minInput.max = val_max;
+maxInput.min = val_min;
 
 // Event Listeners
 
-GenerBtn.addEventListener("click", generate);
-ClearBtn.addEventListener("click", clear);
+generBtn.addEventListener("click", generate);
+clearBtn.addEventListener("click", clear);
 
-NInput.addEventListener("change", updateN);
-XInput.addEventListener("change", updateX);
-PInput.addEventListener("change", updateP);
-MinInput.addEventListener("change", updateMin);
-MaxInput.addEventListener("change", updateMax);
+nInput.addEventListener("change", updateN);
+xInput.addEventListener("change", updateX);
+pInput.addEventListener("change", updateP);
+minInput.addEventListener("change", updateMin);
+maxInput.addEventListener("change", updateMax);
 
-ColorCheck.addEventListener("click", updateColor);
+colorCheck.addEventListener("click", updateColor);
