@@ -125,6 +125,19 @@ function updateInputState()
     }
 }
 
+function updateInputValues()
+{
+	nInput.value = n;
+	xInput.value = x;
+	pInput.value = p;
+	minInput.value = val_min;
+	maxInput.value = val_max;
+
+	xInput.max = n * n;
+	minInput.max = val_max;
+	maxInput.min = val_min;
+}
+
 function colorConflicts(cell, cellColor, tokenColor)
 {
 	var otherCell;
@@ -172,23 +185,7 @@ function colorConflicts(cell, cellColor, tokenColor)
 function cellClicked(event)
 // Add / Remove token on that cell
 {
-	var cell = event.target;
-	if (taken(cell))
-	{
-		score -= parseInt(cell.textContent);
-		score += conflictCount(cell) * p;
-		cell.style.backgroundColor = CELL_COLOR;
-		--tokenCount;
-	}
-	else if (tokenCount < x)
-	{
-		score += parseInt(cell.textContent);
-		score -= conflictCount(cell) * p;
-		cell.style.backgroundColor = TOKEN_COLOR;
-		++tokenCount;
-	}
-	updatePars();
-	updateInputState();
+	switchCell(event.target);
 }
 
 function cellHovered(event)
@@ -246,48 +243,7 @@ function generate(event)
 
 function updateN(event)
 {
-	var newN = getInput(nInput);
-	if (newN > n)
-	{
-		for (var i=0; i < (newN - n); ++i)
-		{
-			grilleTbl.appendChild(document.createElement("tr"));
-			for (var j=0; j < n; ++j)
-			{
-				grilleTbl.childNodes[j].appendChild(createCell(n+i, j));
-				grilleTbl.childNodes[n+i].appendChild(createCell(j, n+i));
-			}
-			for (var j=0; j < (newN - n); ++j)
-			{
-				grilleTbl.childNodes[n+i].appendChild(createCell(n+j, n+i));
-			}
-		}
-	}
-	else if (newN < n)
-	{
-		for (var i=0; i < (n - newN); ++i)
-		{
-			for (var j=0; j < newN; ++j)
-			{
-				grilleTbl.childNodes[j].removeChild(grilleTbl.childNodes[j].childNodes[newN]);
-			}
-		}
-		for (var i=0; i < (n - newN); ++i)
-		{
-			grilleTbl.removeChild(grilleTbl.childNodes[newN]);
-		}
-	}
-	n = newN;
-	nInput.value = n;
-	xInput.max = n * n;
-	if (xInput.value == xInput.defaultValue) x = n;
-	xInput.defaultValue = n;
-	
-	x = clamp(x, xInput.min, xInput.max);
-	xInput.value = x;
-	
-	updatePars();
-	setGrilleSize();
+	resizeGrille(getInput(nInput));
 }
 
 function updateX(event)
@@ -310,7 +266,7 @@ function updateMin(event)
 	maxInput.min = val_min;
 	for (var i=0; i < n; ++i)
 	{
-		for (var j=0; j < n; ++i)
+		for (var j=0; j < n; ++j)
 		{
 			if (parseInt(grilleTbl.childNodes[i].childNodes[j].textContent) < val_min)
 			{
@@ -327,7 +283,7 @@ function updateMax(event)
 	minInput.max = val_max;
 	for (var i=0; i < n; ++i)
 	{
-		for (var j=0; j < n; ++i)
+		for (var j=0; j < n; ++j)
 		{
 			if (parseInt(grilleTbl.childNodes[i].childNodes[j].textContent) > val_max)
 			{
@@ -379,9 +335,13 @@ function fileDrop(event)
 
 	reader.onload = function() {
 		var fileLines = reader.result.replaceAll("\r", "").split("\n");
-		console.log(fileLines);
-
 		while (fileLines.slice(-1) == "") fileLines.pop();
+
+		for (var i=0; i < fileLines.length; ++i)
+		{
+			fileLines[i] = fileLines[i].split(" ");
+			while (fileLines[i].slice(-1) == "") fileLines[i].pop();
+		}
 		
 		if (fileLines.length < 2) { console.log("Fichier trop court"); return; }
 
@@ -389,10 +349,8 @@ function fileDrop(event)
 
 		if (fileLines.length == 2)
 		{
-			var firstLine = fileLines[0].split(" ");
-			var secondLine = fileLines[1].split(" ");
-			while (firstLine.slice(-1) == "") firstLine.pop();
-			while (secondLine.slice(-1) == "") secondLine.pop();
+			var firstLine = fileLines[0];
+			var secondLine = fileLines[1];
 
 			if (secondLine.length > 1 || isNaN(parseInt(secondLine[0]))) { console.log("Score / Grille 1x1 corrompu"); return; }
 			else if (firstLine.length == 3 && firstLine[0] == "1" && firstLine[1] == "1") typeFichier = "instance";
@@ -411,8 +369,7 @@ function fileDrop(event)
 		else
 		{
 			typeFichier = "instance";
-			var firstLine = fileLines[0].split(" ");
-			while (firstLine.slice(-1) == "") firstLine.pop();
+			var firstLine = fileLines[0];
 
 			if (firstLine.length != 3) { console.log("Mauvais en-tête"); return; }
 			var nData = parseInt(firstLine[0]);
@@ -425,8 +382,7 @@ function fileDrop(event)
 
 			for (var i=1; i <= nData; ++i)
 			{
-				var line = fileLines[i].split(" ");
-				while (line.slice(-1) == "") line.pop();
+				var line = fileLines[i];
 				if (line.length != nData) { console.log("Données de grille erronées ("+(line.length)+" valeurs ligne "+i+")"); return; }
 				for (var j=0; j < nData; ++j)
 				{
@@ -435,8 +391,34 @@ function fileDrop(event)
 				}
 			}
 		}
-
 		console.log(typeFichier);
+
+		if (typeFichier == "instance")
+		{
+			var newN = parseInt(fileLines[0][0]);
+			var newX = parseInt(fileLines[0][1]);
+			var newP = parseInt(fileLines[0][2]);
+			clearGrille();
+			resizeGrille(newN);
+			fileLines.shift();
+			fillGrille(fileLines);
+
+			n = newN;
+			x = newX;
+			p = newP;
+			updateInputValues();
+		}
+
+		if (typeFichier == "solution")
+		{
+			clearGrille();
+			for (var i=0; i < x; ++i)
+			{
+				var index = parseInt(fileLines[0][i]) - 1;
+				console.log(Math.floor(index/n), index%n);
+				switchCell(grilleTbl.childNodes[Math.floor(index/n)].childNodes[index%n]);
+			}
+		}
 	};
 
 	reader.readAsText(file);	
@@ -492,6 +474,26 @@ function points(cell)
 {
 	return parseInt(cell.textContent);
 }
+
+function switchCell(cell)
+{
+	if (taken(cell))
+	{
+		score -= parseInt(cell.textContent);
+		score += conflictCount(cell) * p;
+		cell.style.backgroundColor = CELL_COLOR;
+		--tokenCount;
+	}
+	else if (tokenCount < x)
+	{
+		score += parseInt(cell.textContent);
+		score -= conflictCount(cell) * p;
+		cell.style.backgroundColor = TOKEN_COLOR;
+		++tokenCount;
+	}
+	updatePars();
+	updateInputState();
+}
 // ----------------- Table Functions --------------------
 function initGrille()
 {
@@ -527,9 +529,10 @@ function clearGrille()
 	{
 		for (var j=0; j < n; ++j)
 		{
-			if (taken(grilleTbl.childNodes[i].childNodes[j]))
+			var cell = grilleTbl.childNodes[i].childNodes[j];
+			if (taken(cell))
 			{
-				grilleTbl.childNodes[i].childNodes[j].style.backgroundColor = CELL_COLOR;
+				cell.style.backgroundColor = (cell.style.backgroundColor == TOKEN_CONFLICT_COLOR) ? CELL_CONFLICT_COLOR : CELL_COLOR;
 			}
 		}
 	}
@@ -539,6 +542,66 @@ function clearGrille()
 	tokenCount = 0;
 	updatePars();
 	updateInputState();
+}
+
+function fillGrille(newValues)
+{
+	for (var i=0; i < n; ++i)
+	{
+		for (var j=0; j < n; ++j)
+		{
+			var value = parseInt(newValues[i][j]);
+			grilleTbl.childNodes[i].childNodes[j].textContent = newValues[i][j];
+			if (value < val_min) val_min = value;
+			if (value > val_max) val_max = value;
+		}
+	}
+}
+
+function resizeGrille(newN)
+{
+	if (newN == n) return;
+	if (newN > n)
+	{
+		for (var i=0; i < (newN - n); ++i)
+		{
+			grilleTbl.appendChild(document.createElement("tr"));
+			for (var j=0; j < n; ++j)
+			{
+				grilleTbl.childNodes[j].appendChild(createCell(n+i, j));
+				grilleTbl.childNodes[n+i].appendChild(createCell(j, n+i));
+			}
+			for (var j=0; j < (newN - n); ++j)
+			{
+				grilleTbl.childNodes[n+i].appendChild(createCell(n+j, n+i));
+			}
+		}
+	}
+	else if (newN < n)
+	{
+		for (var i=0; i < (n - newN); ++i)
+		{
+			for (var j=0; j < newN; ++j)
+			{
+				grilleTbl.childNodes[j].removeChild(grilleTbl.childNodes[j].childNodes[newN]);
+			}
+		}
+		for (var i=0; i < (n - newN); ++i)
+		{
+			grilleTbl.removeChild(grilleTbl.childNodes[newN]);
+		}
+	}
+	n = newN;
+	nInput.value = n;
+	xInput.max = n * n;
+	if (xInput.value == xInput.defaultValue) x = n;
+	xInput.defaultValue = n;
+	
+	x = clamp(x, xInput.min, xInput.max);
+	xInput.value = x;
+	
+	updatePars();
+	setGrilleSize();
 }
 //-------------------------------------------------------
 
@@ -562,14 +625,7 @@ pInput.defaultValue = p;
 minInput.defaultValue = val_min;
 maxInput.defaultValue = val_max;
 
-nInput.value = nInput.defaultValue;
-xInput.value = xInput.defaultValue;
-pInput.value = pInput.defaultValue;
-minInput.value = minInput.defaultValue;
-maxInput.value = maxInput.defaultValue;
-
-minInput.max = val_max;
-maxInput.min = val_min;
+updateInputValues();
 
 scrollDiv.style.overflow = modifCheck.checked ? "hidden" : "auto";
 
