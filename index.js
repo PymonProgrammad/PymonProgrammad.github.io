@@ -244,26 +244,6 @@ function generate(event)
 	}
 }
 
-function clear(event)
-{
-	for (var i=0; i < n; ++i)
-	{
-		for (var j=0; j < n; ++j)
-		{
-			if (taken(grilleTbl.childNodes[i].childNodes[j]))
-			{
-				grilleTbl.childNodes[i].childNodes[j].style.backgroundColor = CELL_COLOR;
-			}
-		}
-	}
-	if (hoveredCell != null && hoveredCell.style.backgroundColor == CELL_COLOR)
-		hoveredCell.style.backgroundColor = CELL_HOVER_COLOR;
-	score = 0;
-	tokenCount = 0;
-	updatePars();
-	updateInputState();
-}
-
 function updateN(event)
 {
 	var newN = getInput(nInput);
@@ -371,6 +351,104 @@ function updateModif(event)
     if (event.target.checked) scrollDiv.style.overflow = "hidden";
     else scrollDiv.style.overflow = "auto";
 }
+// -------------- Files Drag & Drop Events --------------
+function fileDrop(event)
+{
+    event.preventDefault();
+
+    var file = null;
+    if (event.dataTransfer.items)
+    {
+        for (var i=0; i < event.dataTransfer.items.length; ++i)
+        {
+            if (event.dataTransfer.items[i].kind === 'file')
+            {
+                file = event.dataTransfer.items[i].getAsFile();
+                break;
+            }
+        }
+    }
+    else if (event.dataTransfer.files)
+    {
+        file = event.dataTransfer.files[0];
+    }
+
+    if (file == null) { console.log("Erreur en récupérant le fichier"); return; }
+	
+	var reader = new FileReader();
+
+	reader.onload = function() {
+		var fileLines = reader.result.replaceAll("\r", "").split("\n");
+		console.log(fileLines);
+
+		while (fileLines.slice(-1) == "") fileLines.pop();
+		
+		if (fileLines.length < 2) { console.log("Fichier trop court"); return; }
+
+		var typeFichier = "solution";
+
+		if (fileLines.length == 2)
+		{
+			var firstLine = fileLines[0].split(" ");
+			var secondLine = fileLines[1].split(" ");
+			while (firstLine.slice(-1) == "") firstLine.pop();
+			while (secondLine.slice(-1) == "") secondLine.pop();
+
+			if (secondLine.length > 1 || isNaN(parseInt(secondLine[0]))) { console.log("Score / Grille 1x1 corrompu"); return; }
+			else if (firstLine.length == 3 && firstLine[0] == "1" && firstLine[1] == "1") typeFichier = "instance";
+			else if (firstLine.length != x) { console.log("Mauvais nombre de jetons"); return; }
+			else
+			{
+				var values = new Set();
+				for (var i=0; i < firstLine.length; ++i)
+				{
+					var val = parseInt(firstLine[i]);
+					if (isNaN(val) || values.has(val) || val < 1 || val > n * n) { console.log("Indice jeton corrompu"); return; }
+					values.add(firstLine[i]);
+				}
+			}
+		}
+		else
+		{
+			typeFichier = "instance";
+			var firstLine = fileLines[0].split(" ");
+			while (firstLine.slice(-1) == "") firstLine.pop();
+
+			if (firstLine.length != 3) { console.log("Mauvais en-tête"); return; }
+			var nData = parseInt(firstLine[0]);
+			if (isNaN(nData) || nData < nInput.min || nData > nInput.max) { console.log("Taille hors limites"); return; }
+			var xData = parseInt(firstLine[1]);
+			if (isNaN(xData) || xData < 1 || xData > nData * nData) { console.log("Nombre de jetons hors limites"); return; }
+			var pData = parseInt(firstLine[2]);
+			if (isNaN(pData) || pData < 0) { console.log("Pénalité non recevable"); return; }
+			if (fileLines.length != nData + 1) { console.log("Données de grille erronées ("+(fileLines.length-1)+" lignes)"); return; }
+
+			for (var i=1; i <= nData; ++i)
+			{
+				var line = fileLines[i].split(" ");
+				while (line.slice(-1) == "") line.pop();
+				if (line.length != nData) { console.log("Données de grille erronées ("+(line.length)+" valeurs ligne "+i+")"); return; }
+				for (var j=0; j < nData; ++j)
+				{
+					var value = parseInt(line[j]);
+					if (isNaN(value) || value < minInput.min || value > maxInput.max) { console.log("Valeur non recevable (ligne "+i+" colonne "+(j+1)+")"); return; }
+				}
+			}
+		}
+
+		console.log(typeFichier);
+	};
+
+	reader.readAsText(file);	
+}
+
+function dragStop(event)
+{
+	event.stopPropagation();
+	event.preventDefault();
+
+	event.dataTransfer.dropEffet = "copy";
+}
 // ------------------------------------------------------
 
 
@@ -442,6 +520,26 @@ function setGrilleSize()
 	grilleTbl.style.minHeight = grilleSize + "em";
 	grilleTbl.style.maxHeight = grilleSize + "em";
 }
+
+function clearGrille()
+{
+	for (var i=0; i < n; ++i)
+	{
+		for (var j=0; j < n; ++j)
+		{
+			if (taken(grilleTbl.childNodes[i].childNodes[j]))
+			{
+				grilleTbl.childNodes[i].childNodes[j].style.backgroundColor = CELL_COLOR;
+			}
+		}
+	}
+	if (hoveredCell != null && hoveredCell.style.backgroundColor == CELL_COLOR)
+		hoveredCell.style.backgroundColor = CELL_HOVER_COLOR;
+	score = 0;
+	tokenCount = 0;
+	updatePars();
+	updateInputState();
+}
 //-------------------------------------------------------
 
 
@@ -478,7 +576,7 @@ scrollDiv.style.overflow = modifCheck.checked ? "hidden" : "auto";
 // Event Listeners
 
 generBtn.addEventListener("click", generate);
-clearBtn.addEventListener("click", clear);
+clearBtn.addEventListener("click", function (event) { clearGrille() });
 
 nInput.addEventListener("change", updateN);
 xInput.addEventListener("change", updateX);
@@ -487,4 +585,8 @@ minInput.addEventListener("change", updateMin);
 maxInput.addEventListener("change", updateMax);
 
 colorCheck.addEventListener("click", updateColor);
-modifCheck.addEventListener("click", updateModif)
+modifCheck.addEventListener("click", updateModif);
+
+scrollDiv.addEventListener("drop", fileDrop);
+scrollDiv.addEventListener("dragover", dragStop);
+scrollDiv.addEventListener("dropover", dragStop);
