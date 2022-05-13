@@ -118,7 +118,11 @@ function updateInputState()
 	var inputsToDisable = [nInput, xInput, pInput, minInput, maxInput, generBtn, modifCheck];
 	for (var i=0; i < inputsToDisable.length; ++i)
 		inputsToDisable[i].disabled = (tokenCount > 0);
-	if (tokenCount > 0) modifCheck.checked = false;
+	if (tokenCount > 0)
+    {
+        modifCheck.checked = false;
+        scrollDiv.style.overflow = "auto";
+    }
 }
 
 function colorConflicts(cell, cellColor, tokenColor)
@@ -361,6 +365,12 @@ function updateColor(event)
 	else
 		colorConflicts(hoveredCell, CELL_COLOR, TOKEN_COLOR);
 }
+
+function updateModif(event)
+{
+    if (event.target.checked) scrollDiv.style.overflow = "hidden";
+    else scrollDiv.style.overflow = "auto";
+}
 // ------------------------------------------------------
 
 
@@ -463,6 +473,8 @@ maxInput.value = maxInput.defaultValue;
 minInput.max = val_max;
 maxInput.min = val_min;
 
+scrollDiv.style.overflow = modifCheck.checked ? "hidden" : "auto";
+
 // Event Listeners
 
 generBtn.addEventListener("click", generate);
@@ -475,3 +487,4 @@ minInput.addEventListener("change", updateMin);
 maxInput.addEventListener("change", updateMax);
 
 colorCheck.addEventListener("click", updateColor);
+modifCheck.addEventListener("click", updateModif)
