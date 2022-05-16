@@ -11,6 +11,7 @@ body
     margin: 0;
     min-width: 600px;
     font-family: sans-serif;
+    overflow: hidden;
 }
 
 .bandeau
@@ -37,6 +38,7 @@ body
     padding-left: 10px;
     padding-right: 10px;
     box-shadow: 5px 0 5px gray;
+    overflow: auto;
 }
 
 .contenu
