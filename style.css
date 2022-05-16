@@ -92,3 +92,8 @@ h2
     box-shadow: 0 0 10px rgb(70, 70, 230);
     border-radius: 20px;
 }
+
+:disabled
+{
+    cursor: not-allowed;
+}

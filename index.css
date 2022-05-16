@@ -78,3 +78,8 @@ input[type="number"]
 {
     margin-right: 5px;
 }
+
+td:hover
+{
+    cursor: cell;
+}
