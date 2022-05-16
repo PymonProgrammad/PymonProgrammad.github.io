@@ -176,6 +176,12 @@ function colorConflicts(cell, cellColor, tokenColor)
 		++i; --j;
 	}
 }
+
+function highSpeaker(text)
+{
+	console.log(text);
+	alert(text);
+}
 // ------------------------------------------------------
 
 
@@ -329,7 +335,7 @@ function fileDrop(event)
         file = event.dataTransfer.files[0];
     }
 
-    if (file == null) { console.log("Erreur en récupérant le fichier"); return; }
+    if (file == null) { highSpeaker("Erreur en récupérant le fichier"); return; }
 	
 	var reader = new FileReader();
 
@@ -343,7 +349,7 @@ function fileDrop(event)
 			while (fileLines[i].slice(-1) == "") fileLines[i].pop();
 		}
 		
-		if (fileLines.length < 2) { console.log("Fichier trop court"); return; }
+		if (fileLines.length < 2) { highSpeaker("Fichier trop court"); return; }
 
 		var typeFichier = "solution";
 
@@ -352,16 +358,16 @@ function fileDrop(event)
 			var firstLine = fileLines[0];
 			var secondLine = fileLines[1];
 
-			if (secondLine.length > 1 || isNaN(parseInt(secondLine[0]))) { console.log("Score / Grille 1x1 corrompu"); return; }
+			if (secondLine.length > 1 || isNaN(parseInt(secondLine[0]))) { highSpeaker("Score / Grille 1x1 corrompu"); return; }
 			else if (firstLine.length == 3 && firstLine[0] == "1" && firstLine[1] == "1") typeFichier = "instance";
-			else if (firstLine.length != x) { console.log("Mauvais nombre de jetons"); return; }
+			else if (firstLine.length != x) { highSpeaker("Mauvais nombre de jetons"); return; }
 			else
 			{
 				var values = new Set();
 				for (var i=0; i < firstLine.length; ++i)
 				{
 					var val = parseInt(firstLine[i]);
-					if (isNaN(val) || values.has(val) || val < 1 || val > n * n) { console.log("Indice jeton corrompu"); return; }
+					if (isNaN(val) || values.has(val) || val < 1 || val > n * n) { highSpeaker("Jeton n°"+(i+1)+" hors grille"); return; }
 					values.add(firstLine[i]);
 				}
 			}
@@ -371,27 +377,26 @@ function fileDrop(event)
 			typeFichier = "instance";
 			var firstLine = fileLines[0];
 
-			if (firstLine.length != 3) { console.log("Mauvais en-tête"); return; }
+			if (firstLine.length != 3) { highSpeaker("Mauvais en-tête"); return; }
 			var nData = parseInt(firstLine[0]);
-			if (isNaN(nData) || nData < nInput.min || nData > nInput.max) { console.log("Taille hors limites"); return; }
+			if (isNaN(nData) || nData < nInput.min || nData > nInput.max) { highSpeaker("Taille hors limites"); return; }
 			var xData = parseInt(firstLine[1]);
-			if (isNaN(xData) || xData < 1 || xData > nData * nData) { console.log("Nombre de jetons hors limites"); return; }
+			if (isNaN(xData) || xData < 1 || xData > nData * nData) { highSpeaker("Nombre de jetons hors limites"); return; }
 			var pData = parseInt(firstLine[2]);
-			if (isNaN(pData) || pData < 0) { console.log("Pénalité non recevable"); return; }
-			if (fileLines.length != nData + 1) { console.log("Données de grille erronées ("+(fileLines.length-1)+" lignes)"); return; }
+			if (isNaN(pData) || pData < 0) { highSpeaker("Pénalité non recevable"); return; }
+			if (fileLines.length != nData + 1) { highSpeaker("Données de grille invalides ("+(fileLines.length-1)+" lignes)"); return; }
 
 			for (var i=1; i <= nData; ++i)
 			{
 				var line = fileLines[i];
-				if (line.length != nData) { console.log("Données de grille erronées ("+(line.length)+" valeurs ligne "+i+")"); return; }
+				if (line.length != nData) { highSpeaker("Données de grille invalides ("+(line.length)+" valeurs ligne "+i+")"); return; }
 				for (var j=0; j < nData; ++j)
 				{
 					var value = parseInt(line[j]);
-					if (isNaN(value) || value < minInput.min || value > maxInput.max) { console.log("Valeur non recevable (ligne "+i+" colonne "+(j+1)+")"); return; }
+					if (isNaN(value) || value < minInput.min || value > maxInput.max) { highSpeaker("Valeur hors limites (ligne "+i+" colonne "+(j+1)+")"); return; }
 				}
 			}
 		}
-		console.log(typeFichier);
 
 		if (typeFichier == "instance")
 		{
@@ -415,7 +420,6 @@ function fileDrop(event)
 			for (var i=0; i < x; ++i)
 			{
 				var index = parseInt(fileLines[0][i]) - 1;
-				console.log(Math.floor(index/n), index%n);
 				switchCell(grilleTbl.childNodes[Math.floor(index/n)].childNodes[index%n]);
 			}
 		}
