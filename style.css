@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Inline&display=swap');
 
+html
+{
+    height: 100%;
+}
+
 body
 {
     display: grid;
