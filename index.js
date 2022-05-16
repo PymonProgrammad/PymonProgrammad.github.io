@@ -482,6 +482,8 @@ function switchCell(cell)
 		score -= parseInt(cell.textContent);
 		score += conflictCount(cell) * p;
 		cell.style.backgroundColor = CELL_COLOR;
+		cell.style.backgroundImage = "url()";
+		cell.style.color = "black" ;
 		--tokenCount;
 	}
 	else if (tokenCount < x)
@@ -489,6 +491,9 @@ function switchCell(cell)
 		score += parseInt(cell.textContent);
 		score -= conflictCount(cell) * p;
 		cell.style.backgroundColor = TOKEN_COLOR;
+		cell.style.backgroundImage = "url(pngwing.com_en_free-png-kzzqu.png)";
+		cell.style.backgroundSize = "contain";
+		cell.style.color = "white";
 		++tokenCount;
 	}
 	updatePars();
@@ -533,6 +538,8 @@ function clearGrille()
 			if (taken(cell))
 			{
 				cell.style.backgroundColor = (cell.style.backgroundColor == TOKEN_CONFLICT_COLOR) ? CELL_CONFLICT_COLOR : CELL_COLOR;
+				cell.style.backgroundImage = "url()";
+				cell.style.color = "black" ;
 			}
 		}
 	}

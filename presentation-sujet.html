@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>Problème de l'échiquier - Firmin Heuzé & Alexis Launay</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="presentation-sujet.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
@@ -21,8 +22,10 @@
         <h3>Principe :</h3>    
         <p>Il s'agit d'une variante du jeu des n-reines. Chaque case reçoit un nombre de points
             et chaque reine rapporte le nombre de points de la case où elle a été placée.
-            Des points sont retirés pour chaque paire de reines pouvant se prendre.</p>
+            Des points sont retirés pour chaque paire de reines pouvant se prendre (étant donc en conflit).</p>
+            <figure><img src="n_reines_exemple.png" id="n-reines-exemple"><figcaption>Exemple d'une solution d'un problème n-reines (pour n=7)</figcaption></figure>
         <p>Le but est d'obtenir le meilleur score possible selon ces règles.</p>
+        </br>
         <h3>Données :</h3>
         <ul>
         <li>Un échiquier de taille n (n = nombre de ligne (idem pour colonne))</li>
@@ -30,10 +33,13 @@
         <li>Une valeur de pénalité p pour chaque conflits</li>
         </ul>
         <p>Exemple :</p>
-        <img src="exemple.jpeg">
-        <img src="exemple2.jpeg">
-        <img src="exemple3.jpeg">
-    
+        <figure>
+        <img src="exemple.jpeg" class="ex">
+        <img src="exemple2.jpeg" class="ex">
+        <img src="exemple3.jpeg" class="ex">
+        <figcaption>Exemple d'un échiquier de taille 4 avec 4 jetons à placer</figcaption>
+        </figure>
+        </br>
     </div>
 
 </body>
