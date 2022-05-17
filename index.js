@@ -185,7 +185,17 @@ function highSpeaker(text)
 	alert(text);
 }
 
-function download_instance() {
+function upload_instance()
+{
+	const button = document.createElement('input');
+	button.type = "file";
+	document.body.appendChild(button);
+	button.click();
+	document.body.removeChild(button);
+}
+
+function download_instance() 
+{
 	const a = document.createElement('a');
 	var nomf = prompt("Nom du fichier : ", "probleme_"+n+".txt");
 	if (nomf == null) return;
