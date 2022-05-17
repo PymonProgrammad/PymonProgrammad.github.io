@@ -37,6 +37,8 @@ let generBtn = document.getElementById("random");
 let clearBtn = document.getElementById("clear");
 let colorCheck = document.getElementById("color");
 let modifCheck = document.getElementById("modif");
+// -------------------- "partie" Div --------------------
+let partieDiv = document.getElementById("partie");
 // --- Created
 let scorePar = document.createElement("p");
 let tokenNbPar = document.createElement("p");
@@ -622,8 +624,8 @@ function resizeGrille(newN)
 // Appending Childs
 scrollDiv.appendChild(grilleTbl);
 
-controleDiv.appendChild(scorePar);
-controleDiv.appendChild(tokenNbPar);
+partieDiv.appendChild(scorePar);
+partieDiv.appendChild(tokenNbPar);
 
 // Initialisation
 updatePars();

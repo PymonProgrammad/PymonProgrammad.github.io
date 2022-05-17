@@ -27,36 +27,30 @@
             <h3>Testez le problème de l'échiquier !</h3>
         </div>
         <div class="controle" id="controle">
-            <table>
-                <tr>
-                    <th colspan="2">Paramètres :</th>
-                </tr>
-                <tr>
-                    <td>Taille :</td>
-                    <td><input type="number" value="4" size="1" min="1" max="10" id="n" required></td>
-                </tr>
-                <tr>
-                    <td>Nombre de jetons :</td>
-                    <td><input type="number" value="4" size="1" min="1" max="16" id="x" required></td>
-                </tr>
-                <tr>
-                    <td>Pénalité :</td>
-                    <td><input type="number" value="10" size="2" min="0" id="p" required></td>
-                </tr>
-                <tr>
-                    <td>Valeur Minimum :</td>
-                    <td><input type="number" value="-9" size="2" min="-100" max="100" id="val_min" required></td>
-                </tr>
-                <tr>
-                    <td>Valeur Maximum :</td>
-                    <td><input type="number" value="9" size="2" min="-100" max="100" id="val_max" required></td>
-                </tr>
-            </table>
-            <input type="button" value="Valeurs aléatoires" accesskey="g" id="random"><br />
+            <h3>Paramètres</h3>
+            <div id="reglages">
+                <label for="n">Taille :</label>
+                <input type="number" value="4" size="1" min="1" max="10" id="n">
+                <label for="x">Nombre de jetons :</label>
+                <input type="number" value="4" size="1" min="1" max="16" id="x">
+                <label for="p">Pénalité :</label>
+                <input type="number" value="10" size="2" min="0" id="p">
+                <label for="val_min">Valeur Minimum :</label>
+                <input type="number" value="-9" size="2" min="-100" max="100" id="val_min">
+                <label for="val_max">Valeur Maximum :</label>
+                <input type="number" value="9" size="2" min="-100" max="100" id="val_max">
+                <input type="button" value="Valeurs aléatoires" accesskey="g" id="random"><br />
+                <div class="checkdiv"><input type="checkbox" accesskey="c" id="color"><label for="color">Colorer les conflits au survol</label></div>
+                <div class="checkdiv"><input type="checkbox" accesskey="m" id="modif"><label for="modif">Modification des Valeurs</label></div>
+            </div>
+            <div id="partie">
+                <h3>Votre partie</h3>
+            </div>
             <input type="button" value="Clear" accesskey="r" id="clear"><br />
-            <input type="checkbox" accesskey="c" id="color">Colorer les conflits au survol<br />
-            <input type="checkbox" accesskey="m" id="modif">Modification des Valeurs
-            <a href="presentation-sujet.html">Consultez les règles du jeu</a>
+            <div id="info">
+                <h3>Infos</h3>
+                <a href="presentation-sujet.html">Consultez les règles du jeu</a>
+            </div>
         </div>
     </div>
 
