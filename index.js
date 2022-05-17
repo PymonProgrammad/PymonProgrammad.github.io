@@ -659,3 +659,13 @@ modifCheck.addEventListener("click", updateModif);
 scrollDiv.addEventListener("drop", fileDrop);
 scrollDiv.addEventListener("dragover", dragStop);
 scrollDiv.addEventListener("dropover", dragStop);
+
+
+function download() {
+	const a = document.createElement('a');
+	a.href = "data:text/plain,1 2 3%0A2 4 5 6 3";
+	a.download = "output.txt"
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+}
