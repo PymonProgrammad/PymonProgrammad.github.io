@@ -184,6 +184,48 @@ function highSpeaker(text)
 	console.log(text);
 	alert(text);
 }
+
+function download_instance() {
+	const a = document.createElement('a');
+	var nomf = prompt("Nom du fichier : ", "probleme_"+n+".txt");
+	if (nomf == null) return;
+	a.download = nomf ? nomf : "probleme_"+n+".txt";
+	var url = "data:text/plain," + n + " " + x + " " + p + "%0A" ;
+	for (var i = 0 ; i < n ; ++i)
+	{
+		for (var j = 0 ; j < n ; ++j)
+		{
+			url += grilleTbl.childNodes[i].childNodes[j].textContent + " ";
+		}
+		url += "%0A";
+	}
+	a.href = url ;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+}
+
+function download_solution() {
+	if (tokenCount != x) return ;
+	const a = document.createElement('a');
+	var nomf = prompt("Nom du fichier : ", "probleme_"+n+"_solution.txt");
+	if (nomf == null) return;
+	a.download = nomf ? nomf : "probleme_"+n+"_solution.txt";
+	var url = "data:text/plain,";
+	for (var i = 0 ; i < n ; ++i)
+	{
+		for (var j = 0 ; j < n ; ++j)
+		{
+			if(taken(grilleTbl.childNodes[i].childNodes[j])) url += i*n+j+1 + " ";
+		}
+	}
+	url += "%0A";
+	url += score ;
+	a.href = url ;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+}
 // ------------------------------------------------------
 
 
@@ -659,44 +701,3 @@ modifCheck.addEventListener("click", updateModif);
 scrollDiv.addEventListener("drop", fileDrop);
 scrollDiv.addEventListener("dragover", dragStop);
 scrollDiv.addEventListener("dropover", dragStop);
-
-
-function download_instance() {
-	const a = document.createElement('a');
-	var url = "data:text/plain," + n + " " + x + " " + p + "%0A" ;
-	for (var i = 0 ; i < n ; ++i)
-	{
-		for (var j = 0 ; j < n ; ++j)
-		{
-			url += grilleTbl.childNodes[i].childNodes[j].textContent + " ";
-		}
-		url += "%0A";
-	}
-	a.href = url ;
-	var nomf = prompt("Nom du fichier : ", "probleme_"+n+".txt");
-	a.download = nomf ? nomf : "probleme_"+n+".txt";
-	document.body.appendChild(a);
-	a.click();
-	document.body.removeChild(a);
-}
-
-function download_solution() {
-	if (tokenCount != x) return ;
-	const a = document.createElement('a');
-	var url = "data:text/plain,";
-	for (var i = 0 ; i < n ; ++i)
-	{
-		for (var j = 0 ; j < n ; ++j)
-		{
-			if(taken(grilleTbl.childNodes[i].childNodes[j])) url += i*n+j+1 + " ";
-		}
-	}
-	url += "%0A";
-	url += score ;
-	a.href = url ;
-	var nomf = prompt("Nom du fichier : ", "probleme_"+n+"_solution.txt");
-	a.download = nomf ? nomf : "probleme_"+n+"_solution.txt";
-	document.body.appendChild(a);
-	a.click();
-	document.body.removeChild(a);
-}
