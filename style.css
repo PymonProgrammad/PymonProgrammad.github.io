@@ -23,7 +23,7 @@ body
 {
     display: grid;
     grid-template-columns: 68px 1fr;
-    grid-template-rows: 1;
+    grid-template-rows: 1fr;
     grid-column: 1 / 3;
     grid-row: 1;
     position: relative;
