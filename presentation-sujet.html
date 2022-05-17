@@ -63,11 +63,39 @@
             On a donc 5 conflits. La pénalité sur cet exemple est de 10.<br/>
             On aura donc comme score : 22 - 5*10 = -28.<br/>
         </p>
-
-
-
         <a href="index.html">Essayez le jeu</a>
+        <h3>Communication</h3>
+        <p>
+            Afin de faciliter l'échange d'informations sur une grille ou sur une solution, des formats de fichier standards ont été mis au point.<br/>
+        </p>
+        <h4>Fichier d'instance</h4>
+        <p>
+            Une instance est constituée des informations de taille, de nombre de jetons et de pénalité suivies des valeurs de la grille disposées en matrice n×n.<br/>
+        </p>
+        <div class="code">
+            <code>
+                <i>n</i> <i>x</i> <i>p</i><br/>
+                <i>v11</i> <i>v12</i> <i>v13</i> ...<br/>
+                <i>v21</i> <i>v22</i> <i>v23</i> ...<br/>
+                <i>v31</i> <i>v32</i> <i>v33</i> ...<br/>
+                ...<br/>
+            </code>
+        </div>
+        <h4>Fichier solution</h4>
+        <p>
+            Une solution est constituée des numéros des cases où se trouvent les jetons (de 1 à n²) puis du score de cette solution.
+        </p>
+        <div class="code">
+            <code>
+                <i>j1</i> <i>j2</i> <i>j3</i> ...<br/>
+                <i>score</i><br/>
+            </code>
+        </div>
         <br/>
+        <p>
+            Vous pouvez charger ce type de fichiers sur la page d'accueil pour tester une instance de votre choix.<br/>
+            Il est également possible de télécharger les instances et solutions que vous trouvez intéressantes.
+        </p>
     </div>
 
 </body>

@@ -109,3 +109,10 @@ h2
 {
     color: blue;
 }
+
+.code
+{
+    border: solid 1px gray;
+    background-color: whitesmoke;
+    padding: 5px;
+}
