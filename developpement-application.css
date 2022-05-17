@@ -5,5 +5,7 @@
 
 #gif_jupu
 {
-    width: 600px;
+    width: 500px;
+    padding-right: 20px;
+    float: right;
 }
