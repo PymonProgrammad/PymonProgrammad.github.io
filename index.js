@@ -205,8 +205,13 @@ function download_instance() {
 	document.body.removeChild(a);
 }
 
-function download_solution() {
-	if (tokenCount != x) return ;
+function download_solution() 
+{
+	if (tokenCount != x)
+	{
+		alert("Vous n'avez pas posé tous les jetons !");
+		return ;
+	}
 	const a = document.createElement('a');
 	var nomf = prompt("Nom du fichier : ", "probleme_"+n+"_solution.txt");
 	if (nomf == null) return;
