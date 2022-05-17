@@ -661,10 +661,20 @@ scrollDiv.addEventListener("dragover", dragStop);
 scrollDiv.addEventListener("dropover", dragStop);
 
 
-function download() {
+function download_instance() {
 	const a = document.createElement('a');
-	a.href = "data:text/plain,1 2 3%0A2 4 5 6 3";
-	a.download = "output.txt"
+	var url = "data:text/plain," + n + " " + x + " " + p + "%0A" ;
+	for (var i = 0 ; i < n ; ++i)
+	{
+		for (var j = 0 ; j < n ; ++j)
+		{
+			url += grilleTbl.childNodes[i].childNodes[j].textContent + " ";
+		}
+		url += "%0A";
+	}
+	a.href = url ;
+	var nomf = prompt("Nom du fichier : ", "probleme_"+n+".txt");
+	a.download = nomf ? nomf : "probleme_"+n+".txt";
 	document.body.appendChild(a);
 	a.click();
 	document.body.removeChild(a);
