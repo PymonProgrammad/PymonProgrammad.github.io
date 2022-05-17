@@ -45,6 +45,27 @@
             <img src="exemple3.jpeg" class="ex">
             <figcaption>Exemple d'un échiquier de taille 4 avec 4 jetons à placer</figcaption>
         </figure>
+        <h3>Calcul du score :</h3>
+        <p>
+            Le score se calcule de la façon suivante :
+            </br>
+            score = score brut - nb de conflit * pénalité
+            </br>
+            le score brut est la somme de tous les points des cases sur lequelles les reines sont placées
+            </br></br>
+            Exemple : 
+            </br>
+            <img src="exemple2.jpeg" class="ex">
+            <img src="exemple3.jpeg" class="ex">
+            </br>
+            Sur cet exemple, on a un score brut = 9 + 8 + 2 + 3 = 22.</br>
+            On a 3 conflits sur les colonnes et 2 conflits sur les diagonales.</br>
+            On a donc 5 conflits. La pénalité sur cet exemple est de 10.</br>
+            On aura donc comme score : 22 - 5*10 = -28.</br>
+        </p>
+
+
+
         <a href="index.html">Essayez le jeu</a>
         </br>
     </div>
