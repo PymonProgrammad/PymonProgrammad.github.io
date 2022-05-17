@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
@@ -30,18 +30,18 @@
             <h3>Paramètres</h3>
             <div id="reglages">
                 <label for="n">Taille :</label>
-                <input type="number" value="4" size="1" min="1" max="10" id="n">
+                <input type="number" value="4" min="1" max="10" id="n">
                 <label for="x">Nombre de jetons :</label>
-                <input type="number" value="4" size="1" min="1" max="16" id="x">
+                <input type="number" value="4" min="1" max="16" id="x">
                 <label for="p">Pénalité :</label>
-                <input type="number" value="10" size="2" min="0" id="p">
+                <input type="number" value="10" min="0" id="p">
                 <label for="val_min">Valeur Minimum :</label>
-                <input type="number" value="-9" size="2" min="-100" max="100" id="val_min">
+                <input type="number" value="-9" min="-100" max="100" id="val_min">
                 <label for="val_max">Valeur Maximum :</label>
-                <input type="number" value="9" size="2" min="-100" max="100" id="val_max">
+                <input type="number" value="9" min="-100" max="100" id="val_max">
                 <input type="button" value="Valeurs aléatoires" accesskey="g" id="random">
-                <div class="checkdiv"><input type="checkbox" accesskey="c" id="color"><label for="color">Colorer les conflits au survol</label></div>
-                <div class="checkdiv"><input type="checkbox" accesskey="m" id="modif"><label for="modif">Modification des valeurs</label></div>
+                <div class="checkdiv"><input type="checkbox" accesskey="c" id="color"><label for="color" title="Survolez une case avec la souris pour voir les conflits qu'un jeton causerait.">Coloration des conflits</label></div>
+                <div class="checkdiv"><input type="checkbox" accesskey="m" id="modif"><label for="modif" title="Utilisez la molette de la souris pour modifier les valeurs.">Modification des valeurs</label></div>
             </div>
             <div id="partie">
                 <h3>Votre partie</h3>    

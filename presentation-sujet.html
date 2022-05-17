@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
@@ -27,11 +27,11 @@
         <p>Il s'agit d'une variante du jeu des n-reines. Chaque case reçoit un nombre de points
             et chaque reine rapporte le nombre de points de la case où elle a été placée.
             Des points sont retirés pour chaque paire de reines pouvant se prendre (étant donc en conflit).</p>
-        <figure><img src="n_reines_exemple.png" id="n-reines-exemple">
+        <figure><img src="n_reines_exemple.png" alt="Exemple de solution au problème des sept reines" id="n-reines-exemple">
             <figcaption>Exemple d'une solution d'un problème n-reines (pour n=7)</figcaption>
         </figure>
         <p>Le but est d'obtenir le meilleur score possible selon ces règles.</p>
-        </br>
+        <br/>
         <h3>Données :</h3>
         <ul>
             <li>Un échiquier carré de taille n avec un nombre de points sur chaque case</li>
@@ -40,34 +40,34 @@
         </ul>
         <p>Exemple :</p>
         <figure>
-            <img src="exemple.jpeg" class="ex">
-            <img src="exemple2.jpeg" class="ex">
-            <img src="exemple3.jpeg" class="ex">
+            <img src="exemple.jpeg" alt="Exemple de grille" class="ex">
+            <img src="exemple2.jpeg" alt="Exemple de placement des jetons" class="ex">
+            <img src="exemple3.jpeg" alt="Points retenus sur la grille avec ce placement de jetons" class="ex">
             <figcaption>Exemple d'un échiquier de taille 4 avec 4 jetons à placer</figcaption>
         </figure>
         <h3>Calcul du score :</h3>
         <p>
             Le score se calcule de la façon suivante :
-            </br>
+            <br/>
             score = score brut - nb de conflit * pénalité
-            </br>
+            <br/>
             le score brut est la somme de tous les points des cases sur lequelles les reines sont placées
-            </br></br>
+            <br/><br/>
             Exemple : 
-            </br>
-            <img src="exemple2.jpeg" class="ex">
-            <img src="exemple3.jpeg" class="ex">
-            </br>
-            Sur cet exemple, on a un score brut = 9 + 8 + 2 + 3 = 22.</br>
-            On a 3 conflits sur les colonnes et 2 conflits sur les diagonales.</br>
-            On a donc 5 conflits. La pénalité sur cet exemple est de 10.</br>
-            On aura donc comme score : 22 - 5*10 = -28.</br>
+            <br/>
+            <img src="exemple2.jpeg" alt="Exemple de placement des jetons" class="ex">
+            <img src="exemple3.jpeg" alt="Points retenus sur la grille avec ce placement de jetons" class="ex">
+            <br/>
+            Sur cet exemple, on a un score brut = 9 + 8 + 2 + 3 = 22.<br/>
+            On a 3 conflits sur les colonnes et 2 conflits sur les diagonales.<br/>
+            On a donc 5 conflits. La pénalité sur cet exemple est de 10.<br/>
+            On aura donc comme score : 22 - 5*10 = -28.<br/>
         </p>
 
 
 
         <a href="index.html">Essayez le jeu</a>
-        </br>
+        <br/>
     </div>
 
 </body>
