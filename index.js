@@ -106,6 +106,111 @@ function getInput(inputElement)
 	value = clamp(value, min, max);
 	return !isNaN(value) ? value : parseInt(inputElement.defaultValue);
 }
+
+function read_file(file)
+{
+	if (file == null) { highSpeaker("Erreur en récupérant le fichier"); return; }
+	
+	var reader = new FileReader();
+
+	reader.onload = function() {
+		var fileLines = reader.result.replaceAll("\r", "").split("\n");
+		while (fileLines.slice(-1) == "") fileLines.pop();
+
+		for (var i=0; i < fileLines.length; ++i)
+		{
+			fileLines[i] = fileLines[i].split(" ");
+			while (fileLines[i].slice(-1) == "") fileLines[i].pop();
+		}
+		
+		if (fileLines.length < 2) { highSpeaker("Fichier trop court"); return; }
+
+		var typeFichier = "solution";
+
+		if (fileLines.length == 2)
+		{
+			var firstLine = fileLines[0];
+			var secondLine = fileLines[1];
+
+			if (secondLine.length > 1 || isNaN(parseInt(secondLine[0]))) { highSpeaker("Score / Grille 1x1 corrompu"); return; }
+			else if (firstLine.length == 3 && firstLine[0] == "1" && firstLine[1] == "1") typeFichier = "instance";
+			else if (firstLine.length != x) { highSpeaker("Mauvais nombre de jetons"); return; }
+			else
+			{
+				var values = new Set();
+				for (var i=0; i < firstLine.length; ++i)
+				{
+					var val = parseInt(firstLine[i]);
+					if (isNaN(val) || values.has(val) || val < 1 || val > n * n) { highSpeaker("Jeton n°"+(i+1)+" hors grille"); return; }
+					values.add(firstLine[i]);
+				}
+			}
+		}
+		else
+		{
+			typeFichier = "instance";
+			var firstLine = fileLines[0];
+
+			if (firstLine.length != 3) { highSpeaker("Mauvais en-tête"); return; }
+			var nData = parseInt(firstLine[0]);
+			if (isNaN(nData) || nData < nInput.min || nData > nInput.max) { highSpeaker("Taille hors limites"); return; }
+			var xData = parseInt(firstLine[1]);
+			if (isNaN(xData) || xData < 1 || xData > nData * nData) { highSpeaker("Nombre de jetons hors limites"); return; }
+			var pData = parseInt(firstLine[2]);
+			if (isNaN(pData) || pData < 0) { highSpeaker("Pénalité non recevable"); return; }
+			if (fileLines.length != nData + 1) { highSpeaker("Données de grille invalides ("+(fileLines.length-1)+" lignes)"); return; }
+
+			for (var i=1; i <= nData; ++i)
+			{
+				var line = fileLines[i];
+				if (line.length != nData) { highSpeaker("Données de grille invalides ("+(line.length)+" valeurs ligne "+i+")"); return; }
+				for (var j=0; j < nData; ++j)
+				{
+					var value = parseInt(line[j]);
+					if (isNaN(value) || value < minInput.min || value > maxInput.max) { highSpeaker("Valeur hors limites (ligne "+i+" colonne "+(j+1)+")"); return; }
+				}
+			}
+		}
+
+		if (typeFichier == "instance")
+		{
+			var newN = parseInt(fileLines[0][0]);
+			var newX = parseInt(fileLines[0][1]);
+			var newP = parseInt(fileLines[0][2]);
+			clearGrille();
+			resizeGrille(newN);
+			fileLines.shift();
+			fillGrille(fileLines);
+
+			n = newN;
+			x = newX;
+			p = newP;
+			updateInputValues();
+		}
+
+		if (typeFichier == "solution")
+		{
+			clearGrille();
+			for (var i=0; i < x; ++i)
+			{
+				var index = parseInt(fileLines[0][i]) - 1;
+				switchCell(grilleTbl.childNodes[Math.floor(index/n)].childNodes[index%n]);
+			}
+		}
+	};
+
+	reader.readAsText(file);	
+}
+
+function upload_file()
+{
+	const button = document.createElement('input');
+	button.type = "file";
+	button.onchange = function(){ read_file(button.files[0]); };
+	document.body.appendChild(button);
+	button.click();
+	document.body.removeChild(button);
+}
 // ------------------ Output Functions ------------------
 function updatePars()
 {
@@ -183,15 +288,6 @@ function highSpeaker(text)
 {
 	console.log(text);
 	alert(text);
-}
-
-function upload_instance()
-{
-	const button = document.createElement('input');
-	button.type = "file";
-	document.body.appendChild(button);
-	button.click();
-	document.body.removeChild(button);
 }
 
 function download_instance() 
@@ -394,7 +490,9 @@ function fileDrop(event)
         file = event.dataTransfer.files[0];
     }
 
-    if (file == null) { highSpeaker("Erreur en récupérant le fichier"); return; }
+	read_file(file);
+
+    /*if (file == null) { highSpeaker("Erreur en récupérant le fichier"); return; }
 	
 	var reader = new FileReader();
 
@@ -484,7 +582,7 @@ function fileDrop(event)
 		}
 	};
 
-	reader.readAsText(file);	
+	reader.readAsText(file);	*/
 }
 
 function dragStop(event)
