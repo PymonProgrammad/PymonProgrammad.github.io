@@ -679,3 +679,24 @@ function download_instance() {
 	a.click();
 	document.body.removeChild(a);
 }
+
+function download_solution() {
+	if (tokenCount != x) return ;
+	const a = document.createElement('a');
+	var url = "data:text/plain,";
+	for (var i = 0 ; i < n ; ++i)
+	{
+		for (var j = 0 ; j < n ; ++j)
+		{
+			if(taken(grilleTbl.childNodes[i].childNodes[j])) url += i*n+j+1 + " ";
+		}
+	}
+	url += "%0A";
+	url += score ;
+	a.href = url ;
+	var nomf = prompt("Nom du fichier : ", "probleme_"+n+"_solution.txt");
+	a.download = nomf ? nomf : "probleme_"+n+"_solution.txt";
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+}
