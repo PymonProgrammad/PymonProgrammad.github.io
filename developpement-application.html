@@ -38,11 +38,13 @@
             Principe :
             <ul>
                 <li>Initialisation :</li>
-                <ul>
-                    <li>On initialise un tableau contenant les indices des positions des cases trier selon les points des cases par ordre décroissant.</li>
-                    <li>Ensuite, on initialise un deuxième tableau contenant les positions des jetons par rapport au tableau d'indices précédent.</li>
-                    <li>Les positions des jetons sont initalisés aux premières positions contenu dans le tableau d'indices.</li>
-                </ul>
+                <li>
+                    <ul>
+                        <li>On initialise un tableau contenant les indices des positions des cases trier selon les points des cases par ordre décroissant.</li>
+                        <li>Ensuite, on initialise un deuxième tableau contenant les positions des jetons par rapport au tableau d'indices précédent.</li>
+                        <li>Les positions des jetons sont initalisés aux premières positions contenu dans le tableau d'indices.</li>
+                    </ul>
+                </li>
             </ul> 
 
             Cet algorithme utilise un tableau contenant les indices des positions des cases de la grille par points décroissantes.<br/><br/>
@@ -63,10 +65,12 @@
                 <ul>
                     <li>On garde en mémoire le score du jeton (nb points case - nb conflits de ce jeton avec les autres * p).</li>
                     <li>Pour chaque case vide, on compare le score obtenu comme ci le jeton était dessus.</li>
-                    <ul>
-                        <li>Si le score est supérieur alors on garde la position de la case en mémoire.</li>
-                        <li>Sinon on passe à la case vide d'après.</li>
-                    </ul>
+                    <li>
+                        <ul>
+                            <li>Si le score est supérieur alors on garde la position de la case en mémoire.</li>
+                            <li>Sinon on passe à la case vide d'après.</li>
+                        </ul>
+                    </li>
                     <li>On déplace après avoir parcouru toute l'échiquier le jeton si on a trouvé une meilleure case.</li>
                     <li>On réitère l'opération pour tous les autres jetons.</li>
                     <li>Si aucun des jetons ne s'est déplacés, alors le programme s'arrête, sinon on recommence l'opération.</li>
