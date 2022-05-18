@@ -30,21 +30,29 @@
             Cette solution est assez simple. En effet il calcule le score total de toutes les combinaisons de jetons possibles et renvoie la meilleure solution.<br/><br/>
             Le programme teste donc x parmi n combinaisons pour obtenir la solution optimale. <br/><br/>
         </p>
-        <h3>Solution score brut :</h3>
+        <h3>Solution score brut</h3>
         <p>
             Cette solution permet de trouver une solution optimale.<br/><br/>
             Cependant, il teste beaucoup de combinaisons différentes de placement de jetons donc il ne peut être utilisés pour de grandes instances comprenant beaucoup de jetons.<br/><br/>
             Comme son nom l'indique, cet algorithme se base uniquement sur le score brut (points des cases) pour le placement des jetons.<br/><br/>
-            Ce programme va tester toutes les combinaisons obtenant les plus gros score brut. Il regarde pour chaque combinaison le score total avec les conflits.<br/><br/>
+            Ce programme va tester toutes les combinaisons ayant les plus gros score brut. Il regarde pour chaque combinaison le score total avec les conflits.<br/><br/>
+            Il s'arrête dès que le score maximum trouvé est impossible à battre car le score brut maximum des combinaisons qu'ils restent à tester serait inférieur ou égal au score trouvé.<br/><br/>
         </p>
         Principe :
         <ul>
             <li class="fleche">Initialisation :</li>
-            <li class="pas_fleche">
+            <li class="rien">
                 <ul>
-                    <li class="fleche">On initialise un tableau contenant les indices des positions des cases trier selon les points des cases par ordre décroissant.</li>
-                    <li class="fleche">Ensuite, on initialise un deuxième tableau contenant les positions des jetons par rapport au tableau d'indices précédent.</li>
-                    <li class="fleche">Les positions des jetons sont initalisés aux premières positions contenu dans le tableau d'indices.</li>
+                    <li class="fleche">On initialise un tableau contenant les indices des positions des cases triées selon les points des cases par ordre décroissant.</li>
+                    <li class="fleche">Ensuite, on initialise un deuxième tableau contenant les positions des jetons par rapport au tableau d'indices précédemment initialisé.</li>
+                    <li class="fleche">Les positions des jetons sont initialisés aux premières positions contenu dans le tableau d'indices (donc sur les cases ayant les plus gros score brut).</li>
+                    <li class="fleche">On calcule le score total avec cette première position et on le stocke.</li>
+                </ul>
+            </li>
+            <li class="fleche">Traitement :</li>
+            <li class="rien">
+                <ul>
+                    <li class="fleche"></li>
                 </ul>
             </li>
         </ul> 
@@ -52,7 +60,7 @@
             Cet algorithme utilise un tableau contenant les indices des positions des cases de la grille par points décroissantes.<br/><br/>
             A cela vient s'ajouter un autre tableau contenant la position des jetons par rapport au tableau d'indice.<br/><br/>
         </p>
-        <h3>Solution Jeton un par un :</h3>
+        <h3>Solution Jeton un par un</h3>
         <div>
             <figure>
                 <img src="probleme_8_b_jupu.gif" alt="Exemple de résolution d'un problème huit par huit avec six jetons" id="gif_jupu">
@@ -68,7 +76,7 @@
             <ul>
                 <li class="fleche">On garde en mémoire le score du jeton (nb points case - nb conflits de ce jeton avec les autres * p).</li>
                 <li class="fleche">Pour chaque case vide, on compare le score obtenu comme ci le jeton était dessus.</li>
-                <li class="pas_fleche">
+                <li class="rien">
                     <ul>
                         <li class="fleche">Si le score est supérieur alors on garde la position de la case en mémoire.</li>
                         <li class="fleche">Sinon on passe à la case vide d'après.</li>
@@ -84,7 +92,9 @@
             <p>
                 Le placement de départ des jetons a une grande influence sur le résultat obtenu à la fin.<br/><br/>
                 C'est pourquoi afin d'améliorer les résultats obtenus, le programme se relance un certain nombre de fois avec un placement des jetons différents à chaque fois.<br/><br/>
-                L'écart entre les jetons sur l'échiquier (en terme de position) est augmenté à chaque fois pour obtenir les différents placements.<br/><br/>
+                L'écart entre les jetons sur l'échiquier (en terme de position) est augmenté à chaque fois pour obtenir les différents placements.<br/>
+                (l'écart variant de 0 à n*n-1)<br/><br/>
+                Par exemple, pour un nombre de jetons x = 4, au deuxième lancement le tableau sera initialisé comme ceci : t[4]{0,2,4,6}.<br/><br/>
                 Le meilleure solution est gardée.<br/><br/>
             </p>
         </div>

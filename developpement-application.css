@@ -9,7 +9,7 @@ li
     list-style-type: "→ " ;
 }
 
-.pas_fleche
+.rien
 {
     list-style-type: "" ;
 }
@@ -17,11 +17,6 @@ li
 p
 {
     text-justify: auto;
-}
-
-h3
-{
-    text-decoration: underline;
 }
 
 .contenu
