@@ -1,12 +1,17 @@
-ul
-{
-    list-style-type: "→ " ;
-}
-
 li
 {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.fleche
+{
+    list-style-type: "→ " ;
+}
+
+.pas_fleche
+{
+    list-style-type: "" ;
 }
 
 p
