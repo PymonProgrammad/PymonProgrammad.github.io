@@ -77,6 +77,24 @@
     grid-column: 1/4;
 }
 
+#reglages label[for="cell_size"]
+{
+    margin-top: 10px;
+}
+
+#reglages .rangediv
+{
+    grid-column: 1/4;
+    display : flex;
+    align-items : center;
+}
+
+#reglages .rangediv>input[type="range"]
+{
+    width:100%;
+    margin-right: 10px;
+}
+
 #reglages .checkdiv
 {
     grid-column: 1/4;

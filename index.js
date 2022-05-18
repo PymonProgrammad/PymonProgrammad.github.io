@@ -7,8 +7,6 @@ let TOKEN_CONFLICT_COLOR = "orange";
 let CELL_COLOR = "white";
 let CELL_HOVER_COLOR = "lightgray";
 let CELL_CONFLICT_COLOR = "lightyellow";
-// -------------------- Cell Parameters -----------------
-let CELL_SIZE = 6;	// em
 // ------------------ Default Data ----------------------
 let INIT_POINTS = [
 	[-6, 9, -2,  5],
@@ -33,10 +31,11 @@ let xInput = document.getElementById("x");
 let pInput = document.getElementById("p");
 let minInput = document.getElementById("val_min");
 let maxInput = document.getElementById("val_max");
+let cellInput = document.getElementById("cell_size");
 let generBtn = document.getElementById("random");
-let clearBtn = document.getElementById("clear");
 let colorCheck = document.getElementById("color");
 let modifCheck = document.getElementById("modif");
+let clearBtn = document.getElementById("clear");
 // -------------------- "partie" Div --------------------
 let partieDiv = document.getElementById("partie");
 // --- Created
@@ -59,6 +58,8 @@ let score = 0;
 let tokenCount = 0;
 
 let hoveredCell = null;
+
+let points_backup = null;
 // ------------------------------------------------------
 
 
@@ -230,6 +231,11 @@ function updateInputState()
         modifCheck.checked = false;
         scrollDiv.style.overflow = "auto";
     }
+	if (cellInput.value < 20)
+	{
+		generBtn.disabled = true;
+		modifCheck.disabled = true;
+	}
 }
 
 function updateInputValues()
@@ -301,7 +307,7 @@ function download_instance()
 	{
 		for (var j = 0 ; j < n ; ++j)
 		{
-			url += grilleTbl.childNodes[i].childNodes[j].textContent + " ";
+			url += grilleTbl.childNodes[i].childNodes[j].points + " ";
 		}
 		url += "%0A";
 	}
@@ -377,11 +383,11 @@ function cellWheeled(event)
 	
 	var range = val_max - val_min + 1;
 	var delta = (event.deltaY == 0) ? 0 : event.deltaY / Math.abs(event.deltaY);
-	var newValue = parseInt(cell.textContent);
+	var newValue = cell.points;
 	newValue -= val_min;
 	newValue += range - delta;
 	newValue = (newValue % range) + val_min;
-	cell.textContent = newValue;
+	setCellValue(cell, newValue);
 }
 // -------------------- Inputs Events -------------------
 function generate(event)
@@ -393,7 +399,7 @@ function generate(event)
 	{
 		for (var j=0; j < n; ++j)
 		{
-			grilleTbl.childNodes[i].childNodes[j].textContent = Math.floor(Math.random() * range + val_min);
+			setCellValue(grilleTbl.childNodes[i].childNodes[j], Math.floor(Math.random() * range + val_min));
 		}
 	}
 }
@@ -425,9 +431,9 @@ function updateMin(event)
 	{
 		for (var j=0; j < n; ++j)
 		{
-			if (parseInt(grilleTbl.childNodes[i].childNodes[j].textContent) < val_min)
+			if (grilleTbl.childNodes[i].childNodes[j].points < val_min)
 			{
-				grilleTbl.childNodes[i].childNodes[j].textContent = val_min;
+				setCellValue(grilleTbl.childNodes[i].childNodes[j], val_min);
 			}
 		}
 	}
@@ -442,9 +448,9 @@ function updateMax(event)
 	{
 		for (var j=0; j < n; ++j)
 		{
-			if (parseInt(grilleTbl.childNodes[i].childNodes[j].textContent) > val_max)
+			if (grilleTbl.childNodes[i].childNodes[j].points > val_max)
 			{
-				grilleTbl.childNodes[i].childNodes[j].textContent = val_max;
+				setCellValue(grilleTbl.childNodes[i].childNodes[j], val_max);
 			}
 		}
 	}
@@ -464,6 +470,44 @@ function updateModif(event)
     if (event.target.checked) scrollDiv.style.overflow = "hidden";
     else scrollDiv.style.overflow = "auto";
 }
+
+function updateCellSize(event)
+{
+	var currentCellSize;
+	currentCellSize = grilleTbl.firstChild.firstChild.style.minWidth;
+	currentCellSize = currentCellSize.substr(0, currentCellSize.length-2);
+	currentCellSize = parseInt(currentCellSize);
+	var hideText = (cellInput.value < 20 && currentCellSize >= 20);
+	var showText = (cellInput.value >= 20 && currentCellSize < 20);
+	for (var i=0; i < n; ++i)
+	{
+		for (var j=0; j < n; ++j)
+		{
+			if (hideText)
+			{
+				grilleTbl.childNodes[i].childNodes[j].textContent = "";
+				grilleTbl.childNodes[i].childNodes[j].speak = false;
+				grilleTbl.childNodes[i].childNodes[j].style.backgroundImage = "url()";
+				generBtn.disabled = true;
+				modifCheck.disabled = true;
+			}
+			setCellSize(grilleTbl.childNodes[i].childNodes[j]);
+			if (showText)
+			{
+				grilleTbl.childNodes[i].childNodes[j].textContent = grilleTbl.childNodes[i].childNodes[j].points;
+				grilleTbl.childNodes[i].childNodes[j].speak = true;
+				if (taken(grilleTbl.childNodes[i].childNodes[j])) grilleTbl.childNodes[i].childNodes[j].style.backgroundImage = "url(pngwing.com_en_free-png-kzzqu.png)";
+				if (tokenCount == 0) {
+					generBtn.disabled = false;
+					modifCheck.disabled = false;
+				}
+			}
+		}
+	}
+	setGrilleSize();
+	document.getElementById("cell_sizeV").textContent = cellInput.value;
+}
+
 // -------------- Files Drag & Drop Events --------------
 function fileDrop(event)
 {
@@ -506,7 +550,8 @@ function createCell(x, y, value=Math.round((val_max+val_min)/2))
 {
 	var newCell = document.createElement("td");
 	
-	newCell.textContent = value;
+	newCell.speak = (cellInput.value >= 20);
+	setCellValue(newCell, value);
 	newCell.x = x;
 	newCell.y = y;
 	
@@ -523,10 +568,16 @@ function createCell(x, y, value=Math.round((val_max+val_min)/2))
 
 function setCellSize(cell)
 {
-	cell.style.minWidth = CELL_SIZE + "em";
-	cell.style.maxWidth = CELL_SIZE + "em";
-	cell.style.minHeight = CELL_SIZE + "em";
-	cell.style.maxHeight = CELL_SIZE + "em";
+	cell.style.minWidth = cellInput.value + "px";
+	cell.style.maxWidth = cellInput.value + "px";
+	cell.style.minHeight = cellInput.value + "px";
+	cell.style.maxHeight = cellInput.value + "px";
+}
+
+function setCellValue(cell, value)
+{
+	cell.points = parseInt(value);
+	if (cell.speak) cell.textContent = value;
 }
 
 function taken(cell)
@@ -535,16 +586,11 @@ function taken(cell)
 	return (bgColor == TOKEN_COLOR || bgColor == TOKEN_HOVER_COLOR || bgColor == TOKEN_CONFLICT_COLOR);
 }
 
-function points(cell)
-{
-	return parseInt(cell.textContent);
-}
-
 function switchCell(cell)
 {
 	if (taken(cell))
 	{
-		score -= parseInt(cell.textContent);
+		score -= cell.points;
 		score += conflictCount(cell) * p;
 		cell.style.backgroundColor = CELL_COLOR;
 		cell.style.backgroundImage = "url()";
@@ -553,10 +599,10 @@ function switchCell(cell)
 	}
 	else if (tokenCount < x)
 	{
-		score += parseInt(cell.textContent);
+		score += cell.points;
 		score -= conflictCount(cell) * p;
 		cell.style.backgroundColor = TOKEN_COLOR;
-		cell.style.backgroundImage = "url(pngwing.com_en_free-png-kzzqu.png)";
+		if (cell.speak) cell.style.backgroundImage = "url(pngwing.com_en_free-png-kzzqu.png)";
 		cell.style.backgroundSize = "contain";
 		cell.style.color = "white";
 		++tokenCount;
@@ -586,11 +632,11 @@ function initGrille()
 
 function setGrilleSize()
 {
-	var grilleSize = n * CELL_SIZE;
-	grilleTbl.style.minWidth = grilleSize + "em";
-	grilleTbl.style.maxWidth = grilleSize + "em";
-	grilleTbl.style.minHeight = grilleSize + "em";
-	grilleTbl.style.maxHeight = grilleSize + "em";
+	var grilleSize = n * cellInput.value;
+	grilleTbl.style.minWidth = grilleSize + "px";
+	grilleTbl.style.maxWidth = grilleSize + "px";
+	grilleTbl.style.minHeight = grilleSize + "px";
+	grilleTbl.style.maxHeight = grilleSize + "px";
 }
 
 function clearGrille()
@@ -623,7 +669,7 @@ function fillGrille(newValues)
 		for (var j=0; j < n; ++j)
 		{
 			var value = parseInt(newValues[i][j]);
-			grilleTbl.childNodes[i].childNodes[j].textContent = newValues[i][j];
+			setCellValue(grilleTbl.childNodes[i].childNodes[j], newValues[i][j]);
 			if (value < val_min) val_min = value;
 			if (value > val_max) val_max = value;
 		}
@@ -698,6 +744,7 @@ minInput.defaultValue = val_min;
 maxInput.defaultValue = val_max;
 
 updateInputValues();
+updateCellSize();
 
 scrollDiv.style.overflow = modifCheck.checked ? "hidden" : "auto";
 
@@ -711,6 +758,7 @@ xInput.addEventListener("change", updateX);
 pInput.addEventListener("change", updateP);
 minInput.addEventListener("change", updateMin);
 maxInput.addEventListener("change", updateMax);
+cellInput.addEventListener("change", updateCellSize);
 
 colorCheck.addEventListener("click", updateColor);
 modifCheck.addEventListener("click", updateModif);

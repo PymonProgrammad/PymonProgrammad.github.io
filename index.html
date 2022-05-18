@@ -30,7 +30,7 @@
             <h3>Paramètres</h3>
             <div id="reglages">
                 <label for="n">Taille :</label>
-                <input type="number" value="4" min="1" max="10" id="n">
+                <input type="number" value="4" min="1" max="100" id="n">
                 <label for="x">Nombre de jetons :</label>
                 <input type="number" value="4" min="1" max="16" id="x">
                 <label for="p">Pénalité :</label>
@@ -39,6 +39,10 @@
                 <input type="number" value="-9" min="-100" max="100" id="val_min">
                 <label for="val_max">Valeur Maximum :</label>
                 <input type="number" value="9" min="-100" max="100" id="val_max">
+                <label for="cell_size">Taille des cellules :</label>
+                <div class="rangediv">
+                    <input type="range" value="96" min="10" max="96" id="cell_size"><div id="cell_sizeV">96</div>
+                </div>
                 <input type="button" value="Valeurs aléatoires" accesskey="g" id="random">
                 <div class="checkdiv"><input type="checkbox" accesskey="c" id="color"><label for="color" title="Survolez une case avec la souris pour voir les conflits qu'un jeton causerait.">Coloration des conflits</label></div>
                 <div class="checkdiv"><input type="checkbox" accesskey="m" id="modif"><label for="modif" title="Utilisez la molette de la souris pour modifier les valeurs.">Modification des valeurs</label></div>
