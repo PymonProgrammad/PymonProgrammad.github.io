@@ -98,8 +98,19 @@
                 Le meilleure solution est gardée.<br/><br/>
             </p>
         </div>
+        <h3>Solution Pire jeton / Meilleure case</h3>
+        <figure>
+            <img src="solution_pm.gif" alt="Exemple de résolution d'un problème quatre par quatre avec quatre jetons" id="gif_pm">
+            <figcaption>Illustration de solution pire/meilleure pour un probleme de taille 4 avec 4 jetons à placer.</figcaption>
+        </figure>
+        <p>
+            Cette solution consiste à estimer et effectuer le meilleur mouvement de jeton possible et ce jusqu'à ce qu'on ne trouve plus de mouvement permettant d'augmenter le score.<br/><br/>
+            L'estimation se fait en trouvant le "pire" jeton et la "meilleure" case où le déplacer. Pour cela, on calcule le "score personnel" d'une case en additionant ses points
+            et les pénalités qui la concerne. Le pire jeton est donc celui avec le moins bon score personnel et la meilleure case est celle avec le meilleur score personnel,
+            sans compter un éventuel conflit entre eux.<br/><br/>
+            Cette méthode ne permet pas toujours de trouver une solution optimale, mais elle est rapide et peut-être répétée un grand nombre de fois en partant de combinaisons aléatoires.<br/><br/>
+        </p>
     </div>
-
 </body>
 
 </html>

@@ -112,7 +112,7 @@ function getInput(inputElement)
 
 function read_file(file)
 {
-	if (file == null) { highSpeaker("Erreur en récupérant le fichier"); return; }
+	if (file == null) { shootOut("Erreur en récupérant le fichier"); return; }
 	
 	var reader = new FileReader();
 
@@ -126,7 +126,7 @@ function read_file(file)
 			while (fileLines[i].slice(-1) == "") fileLines[i].pop();
 		}
 		
-		if (fileLines.length < 2) { highSpeaker("Fichier trop court"); return; }
+		if (fileLines.length < 2) { shootOut("Fichier trop court"); return; }
 
 		var typeFichier = "solution";
 
@@ -135,16 +135,16 @@ function read_file(file)
 			var firstLine = fileLines[0];
 			var secondLine = fileLines[1];
 
-			if (secondLine.length > 1 || isNaN(parseInt(secondLine[0]))) { highSpeaker("Score / Grille 1x1 corrompu"); return; }
+			if (secondLine.length > 1 || isNaN(parseInt(secondLine[0]))) { shootOut("Score / Grille 1x1 corrompu"); return; }
 			else if (firstLine.length == 3 && firstLine[0] == "1" && firstLine[1] == "1") typeFichier = "instance";
-			else if (firstLine.length != x) { highSpeaker("Mauvais nombre de jetons"); return; }
+			else if (firstLine.length != x) { shootOut("Mauvais nombre de jetons"); return; }
 			else
 			{
 				var values = new Set();
 				for (var i=0; i < firstLine.length; ++i)
 				{
 					var val = parseInt(firstLine[i]);
-					if (isNaN(val) || values.has(val) || val < 1 || val > n * n) { highSpeaker("Jeton n°"+(i+1)+" hors grille"); return; }
+					if (isNaN(val) || values.has(val) || val < 1 || val > n * n) { shootOut("Jeton n°"+(i+1)+" hors grille"); return; }
 					values.add(firstLine[i]);
 				}
 			}
@@ -154,23 +154,23 @@ function read_file(file)
 			typeFichier = "instance";
 			var firstLine = fileLines[0];
 
-			if (firstLine.length != 3) { highSpeaker("Mauvais en-tête"); return; }
+			if (firstLine.length != 3) { shootOut("Mauvais en-tête"); return; }
 			var nData = parseInt(firstLine[0]);
-			if (isNaN(nData) || nData < nInput.min || nData > nInput.max) { highSpeaker("Taille hors limites"); return; }
+			if (isNaN(nData) || nData < nInput.min || nData > nInput.max) { shootOut("Taille hors limites"); return; }
 			var xData = parseInt(firstLine[1]);
-			if (isNaN(xData) || xData < 1 || xData > nData * nData) { highSpeaker("Nombre de jetons hors limites"); return; }
+			if (isNaN(xData) || xData < 1 || xData > nData * nData) { shootOut("Nombre de jetons hors limites"); return; }
 			var pData = parseInt(firstLine[2]);
-			if (isNaN(pData) || pData < 0) { highSpeaker("Pénalité non recevable"); return; }
-			if (fileLines.length != nData + 1) { highSpeaker("Données de grille invalides ("+(fileLines.length-1)+" lignes)"); return; }
+			if (isNaN(pData) || pData < 0) { shootOut("Pénalité non recevable"); return; }
+			if (fileLines.length != nData + 1) { shootOut("Données de grille invalides ("+(fileLines.length-1)+" lignes)"); return; }
 
 			for (var i=1; i <= nData; ++i)
 			{
 				var line = fileLines[i];
-				if (line.length != nData) { highSpeaker("Données de grille invalides ("+(line.length)+" valeurs ligne "+i+")"); return; }
+				if (line.length != nData) { shootOut("Données de grille invalides ("+(line.length)+" valeurs ligne "+i+")"); return; }
 				for (var j=0; j < nData; ++j)
 				{
 					var value = parseInt(line[j]);
-					if (isNaN(value) || value < minInput.min || value > maxInput.max) { highSpeaker("Valeur hors limites (ligne "+i+" colonne "+(j+1)+")"); return; }
+					if (isNaN(value) || value < minInput.min || value > maxInput.max) { shootOut("Valeur hors limites (ligne "+i+" colonne "+(j+1)+")"); return; }
 				}
 			}
 		}
@@ -292,7 +292,7 @@ function colorConflicts(cell, cellColor, tokenColor)
 	}
 }
 
-function highSpeaker(text)
+function shootOut(text)
 {
 	console.log(text);
 	alert(text);
