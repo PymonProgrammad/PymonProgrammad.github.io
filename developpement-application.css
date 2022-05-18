@@ -9,6 +9,16 @@ li
     padding-bottom: 10px;
 }
 
+p
+{
+    text-justify: auto;
+}
+
+h3
+{
+    text-decoration: underline;
+}
+
 .contenu
 {
     padding: 20px;

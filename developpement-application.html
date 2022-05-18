@@ -29,7 +29,7 @@
             Cette solution est assez simple. En effet il calcule le score total de toutes les combinaisons de jetons possibles et renvoie la meilleure solution.<br/><br/>
             Le programme teste donc x parmi n combinaisons pour obtenir la solution optimale. <br/><br/>
         </p>
-        <h3>Solution score_brut :</h3>
+        <h3>Solution score brut :</h3>
         <p>
             Cette solution permet de trouver une solution optimale.<br/><br/>
             Cependant, il teste beaucoup de combinaisons différentes de placement de jetons donc il ne peut être utilisés pour de grandes instances comprenant beaucoup de jetons.<br/><br/>
@@ -49,32 +49,36 @@
             A cela vient s'ajouter un autre tableau contenant la position des jetons par rapport au tableau d'indice.<br/><br/>
         </p>
         <h3>Solution Jeton un par un :</h3>
-        <p>
-            <figure>
-                <img src="probleme_8_b_jupu.gif" alt="Exemple de résolution d'un problème huit par huit avec six jetons" id="gif_jupu">
-                <figcaption>Illustration de solution jeton un par un pour un probleme de taille 8 avec 6 jetons à placer.</figcaption>
-            </figure>
-            Cette solution consiste à placer chaque jeton sur la meilleure case possible.<br/><br/>
-            Au début les jetons sont placés les uns à la suite des autres sur la grille.<br/><br/>
-            Un tableau contenant la position des jetons est utilisé. Chaque indice du tableau correspond aux différents jetons.<br/><br/>
-            Par exemple, pour un nombre de jetons x = 4, on initialise le tableau comme ceci : t[4]{0,1,2,3}.<br/><br/>
-            Principe : 
-            <ul>
-                <li>On garde en mémoire le score du jeton (nb points case - nb conflits de ce jeton avec les autres * p).</li>
-                <li>Pour chaque case vide, on compare le score obtenu comme ci le jeton était dessus.</li>
+        <div>
+            <p>
+                <figure>
+                    <img src="probleme_8_b_jupu.gif" alt="Exemple de résolution d'un problème huit par huit avec six jetons" id="gif_jupu">
+                    <figcaption>Illustration de solution jeton un par un pour un probleme de taille 8 avec 6 jetons à placer.</figcaption>
+                </figure>
+                Cette solution consiste à placer chaque jeton sur la meilleure case possible.<br/><br/>
+                Au début les jetons sont placés les uns à la suite des autres sur la grille.<br/><br/>
+                Un tableau contenant la position des jetons est utilisé. Chaque indice du tableau correspond aux différents jetons.<br/><br/>
+                Par exemple, pour un nombre de jetons x = 4, on initialise le tableau comme ceci : t[4]{0,1,2,3}.<br/><br/>
+                Principe : 
                 <ul>
-                    <li>Si le score est supérieur alors on garde la position de la case en mémoire.</li>
-                    <li>Sinon on passe à la case vide d'après.</li>
+                    <li>On garde en mémoire le score du jeton (nb points case - nb conflits de ce jeton avec les autres * p).</li>
+                    <li>Pour chaque case vide, on compare le score obtenu comme ci le jeton était dessus.</li>
+                    <ul>
+                        <li>Si le score est supérieur alors on garde la position de la case en mémoire.</li>
+                        <li>Sinon on passe à la case vide d'après.</li>
+                    </ul>
+                    <li>On déplace après avoir parcouru toute l'échiquier le jeton si on a trouvé une meilleure case.</li>
+                    <li>On réitère l'opération pour tous les autres jetons.</li>
+                    <li>Si aucun des jetons ne s'est déplacés, alors le programme s'arrête, sinon on recommence l'opération.</li>
                 </ul>
-                <li>On déplace après avoir parcouru toute l'échiquier le jeton si on a trouvé une meilleure case.</li>
-                <li>On réitère l'opération pour tous les autres jetons.</li>
-                <li>Si aucun des jetons ne s'est déplacés, alors le programme s'arrête, sinon on recommence l'opération.</li>
-            </ul>
+            </p>
+        </div>
+        <div>
             Le placement de départ des jetons a une grande influence sur le résultat obtenu à la fin.<br/><br/>
             C'est pourquoi afin d'améliorer les résultats obtenus, le programme se relance un certain nombre de fois avec un placement des jetons différents à chaque fois.<br/><br/>
             L'écart entre les jetons sur l'échiquier (en terme de position) est augmenté à chaque fois pour obtenir les différents placements.<br/><br/>
             Le meilleure solution est gardée.<br/><br/>
-        </p>
+        </div>
     </div>
 
 </body>
