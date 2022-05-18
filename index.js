@@ -14,6 +14,8 @@ let INIT_POINTS = [
 	[-8, 2, -4, -3],
 	[-3, 3, -4,  7]
 ];
+// ----------------- Cell Parameters --------------------
+let CELL_HIDE_THRESHOLD = 35;
 // ------------------------------------------------------
 
 
@@ -231,7 +233,7 @@ function updateInputState()
         modifCheck.checked = false;
         scrollDiv.style.overflow = "auto";
     }
-	if (cellInput.value < 20)
+	if (cellInput.value < CELL_HIDE_THRESHOLD)
 	{
 		generBtn.disabled = true;
 		modifCheck.disabled = true;
@@ -477,8 +479,8 @@ function updateCellSize(event)
 	currentCellSize = grilleTbl.firstChild.firstChild.style.minWidth;
 	currentCellSize = currentCellSize.substr(0, currentCellSize.length-2);
 	currentCellSize = parseInt(currentCellSize);
-	var hideText = (cellInput.value < 20 && currentCellSize >= 20);
-	var showText = (cellInput.value >= 20 && currentCellSize < 20);
+	var hideText = (cellInput.value < CELL_HIDE_THRESHOLD && currentCellSize >= CELL_HIDE_THRESHOLD);
+	var showText = (cellInput.value >= CELL_HIDE_THRESHOLD && currentCellSize < CELL_HIDE_THRESHOLD);
 	for (var i=0; i < n; ++i)
 	{
 		for (var j=0; j < n; ++j)
@@ -550,7 +552,7 @@ function createCell(x, y, value=Math.round((val_max+val_min)/2))
 {
 	var newCell = document.createElement("td");
 	
-	newCell.speak = (cellInput.value >= 20);
+	newCell.speak = (cellInput.value >= CELL_HIDE_THRESHOLD);
 	setCellValue(newCell, value);
 	newCell.x = x;
 	newCell.y = y;
