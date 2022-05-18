@@ -38,12 +38,12 @@
         </p>
         Principe :
         <ul>
-            <li>Initialisation :</li>
-            <li>
+            <li class="fleche">Initialisation :</li>
+            <li class="pas_fleche">
                 <ul>
-                    <li>On initialise un tableau contenant les indices des positions des cases trier selon les points des cases par ordre décroissant.</li>
-                    <li>Ensuite, on initialise un deuxième tableau contenant les positions des jetons par rapport au tableau d'indices précédent.</li>
-                    <li>Les positions des jetons sont initalisés aux premières positions contenu dans le tableau d'indices.</li>
+                    <li class="fleche">On initialise un tableau contenant les indices des positions des cases trier selon les points des cases par ordre décroissant.</li>
+                    <li class="fleche">Ensuite, on initialise un deuxième tableau contenant les positions des jetons par rapport au tableau d'indices précédent.</li>
+                    <li class="fleche">Les positions des jetons sont initalisés aux premières positions contenu dans le tableau d'indices.</li>
                 </ul>
             </li>
         </ul> 
@@ -65,17 +65,17 @@
             </p>
             Principe : 
             <ul>
-                <li>On garde en mémoire le score du jeton (nb points case - nb conflits de ce jeton avec les autres * p).</li>
-                <li>Pour chaque case vide, on compare le score obtenu comme ci le jeton était dessus.</li>
-                <li>
+                <li class="fleche">On garde en mémoire le score du jeton (nb points case - nb conflits de ce jeton avec les autres * p).</li>
+                <li class="fleche">Pour chaque case vide, on compare le score obtenu comme ci le jeton était dessus.</li>
+                <li class="pas_fleche">
                     <ul>
-                        <li>Si le score est supérieur alors on garde la position de la case en mémoire.</li>
-                        <li>Sinon on passe à la case vide d'après.</li>
+                        <li class="fleche">Si le score est supérieur alors on garde la position de la case en mémoire.</li>
+                        <li class="fleche">Sinon on passe à la case vide d'après.</li>
                     </ul>
                 </li>
-                <li>On déplace après avoir parcouru toute l'échiquier le jeton si on a trouvé une meilleure case.</li>
-                <li>On réitère l'opération pour tous les autres jetons.</li>
-                <li>Si aucun des jetons ne s'est déplacés, alors le programme s'arrête, sinon on recommence l'opération.</li>
+                <li class="fleche">On déplace après avoir parcouru toute l'échiquier le jeton si on a trouvé une meilleure case.</li>
+                <li class="fleche">On réitère l'opération pour tous les autres jetons.</li>
+                <li class="fleche">Si aucun des jetons ne s'est déplacés, alors le programme s'arrête, sinon on recommence l'opération.</li>
             </ul>
         </div>
         <div>
