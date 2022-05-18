@@ -556,6 +556,8 @@ function createCell(x, y, value=Math.round((val_max+val_min)/2))
 	newCell.y = y;
 	
 	newCell.style.backgroundColor = CELL_COLOR;
+	newCell.style.backgroundRepeat = "no-repeat";
+	newCell.style.backgroundPosition = "center";
 	setCellSize(newCell);
 	
 	newCell.addEventListener("click", cellClicked);
