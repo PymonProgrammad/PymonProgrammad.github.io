@@ -120,12 +120,12 @@ function read_file(file)
 
 	reader.onload = function() {
 		var fileLines = reader.result.replaceAll("\r", "").split("\n");
-		while (fileLines.slice(-1) == "") fileLines.pop();
+		while (fileLines.slice(-1) == "" && fileLines.length > 0) fileLines.pop();
 
 		for (var i=0; i < fileLines.length; ++i)
 		{
 			fileLines[i] = fileLines[i].split(" ");
-			while (fileLines[i].slice(-1) == "") fileLines[i].pop();
+			while (fileLines[i].slice(-1) == "" && fileLines[i].length > 0) fileLines[i].pop();
 		}
 		
 		if (fileLines.length < 2) { shootOut("Fichier trop court"); return; }
