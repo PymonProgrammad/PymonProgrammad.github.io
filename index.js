@@ -494,6 +494,7 @@ function updateCellSize(event)
 				grilleTbl.childNodes[i].childNodes[j].style.backgroundImage = "url()";
 				generBtn.disabled = true;
 				modifCheck.disabled = true;
+				modifCheck.checked = false;
 			}
 			setCellSize(grilleTbl.childNodes[i].childNodes[j]);
 			if (showText)
