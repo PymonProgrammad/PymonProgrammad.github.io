@@ -49,14 +49,19 @@
                     <li class="fleche">On calcule le score total avec cette première position et on le stocke.</li>
                 </ul>
             </li>
-            <li class="fleche">Traitement :</li>
+            <li class="fleche">Traitement (Illustration GIF ci-dessous):</li>
             <li class="rien">
                 <ul>
-                    <li class="fleche"></li>
+                    <li class="fleche">On déplace le dernier jeton.</li>
+                    <li class="fleche">On place tous les autres jetons au début.</li>
+                    <li class="fleche">On définit la position de référence, par défaut celle ci est égale à la position du dernier jeton, mais si le placement de l'avant dernier jeton n'est pas nécessaire sur les dernières cases vides alors la position de référence sera la position juste après la dernière case possible pour l'avant dernier jeton.</li>
+                    <li class="fleche">On effectue toutes les combinaisons possibles avec les autres jetons avec toutes les cases avant la case de la position de référence.</li>
+                    <li class="fleche">On garde le meilleur score trouvé.</li>
+                    <li class="fleche">On recommence jusqu'à ce que le score brut max soit inférieur ou égal au score max trouvé.</li>
                 </ul>
             </li>
         </ul>
-        <img src="probleme_4_c_solution_scorebrut.gif"><br/><br/>
+        <img src="probleme_4_c_solution_scorebrut.gif" id="pb_sol_brut"><br/><br/>
         <h3>Solution Jeton un par un</h3>
         <div>
             <figure>
@@ -75,7 +80,7 @@
                 <li class="fleche">Pour chaque case vide, on compare le score obtenu comme ci le jeton était dessus.</li>
                 <li class="rien">
                     <ul>
-                        <li class="fleche">Si le score est supérieur alors on garde la position de la case en mémoire.</li>
+                        <li class="fleche">Si le score total est supérieur alors on garde la position de la case en mémoire.</li>
                         <li class="fleche">Sinon on passe à la case vide d'après.</li>
                     </ul>
                 </li>
