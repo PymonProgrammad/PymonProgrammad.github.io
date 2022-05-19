@@ -1,10 +1,82 @@
+.contenu
+{
+    padding: 20px;
+}
+
 table
 {
     border-collapse: collapse;
+    width: 100%;
 }
 
-td
+td, th
 {
     border: 1px solid black;
     background-color: white;
+}
+
+th
+{
+    background-color: darkgray;
+}
+
+td.inst_settings
+{
+    width: 20px;
+    text-align: center;
+    width: 5%;
+}
+
+td.inst_grid
+{
+    position: relative;
+    width: 15%;
+    padding-bottom: 15%;
+    background-clip: padding-box;
+}
+
+table.instance
+{
+    position: absolute;
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+}
+
+td.instance
+{
+    position: relative;
+    width: 20%;
+    padding-bottom: 20%;
+    overflow: hidden;
+    background-clip: padding-box;
+}
+
+td.instance .content
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+td.instance .content .table
+{
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+td.instance .content .table .cell
+{
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+
+td.jeton
+{
+    background-color: lightcoral;
 }
