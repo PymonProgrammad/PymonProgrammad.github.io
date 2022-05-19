@@ -114,7 +114,7 @@ function read_file(file)
 {
 	if (file == null) { shootOut("Erreur en récupérant le fichier"); return; }
 
-	if (file.size > 170000) { shootOut("Fichier trop lourd !"); return; }
+	if (file.size > 200000) { shootOut("Fichier trop lourd !"); return; }
 	
 	var reader = new FileReader();
 
