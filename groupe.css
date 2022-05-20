@@ -1,4 +1,40 @@
 .contenu
 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 50px;
     padding: 20px;
+}
+
+.contenu>div
+{
+    background-color: aliceblue;
+    border: 1px black solid;
+    margin: 0 10px 10px;
+
+}
+
+h4
+{
+    text-align: center;
+}
+
+#al
+{
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#fh
+{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#autres
+{
+    grid-column: 1/3;
+    grid-row: 2;
+    margin-bottom: 0;
+    padding: 5px;
 }
