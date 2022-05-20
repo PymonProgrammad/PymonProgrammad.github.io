@@ -54,10 +54,10 @@
                 <ul>
                     <li class="fleche">On déplace le dernier jeton.</li>
                     <li class="fleche">On place tous les autres jetons au début.</li>
-                    <li class="fleche">On définit la position de référence, par défaut celle ci est égale à la position du dernier jeton, mais si le placement de l'avant dernier jeton n'est pas nécessaire sur les dernières cases vides alors la position de référence sera la position juste après la dernière case possible pour l'avant dernier jeton.</li>
-                    <li class="fleche">On effectue toutes les combinaisons possibles avec les autres jetons avec toutes les cases avant la case de la position de référence.</li>
+                    <li class="fleche">La position de référence est la dernière position qui permet de trouver un score brut plus grand que le score final que l'on a pour l'instant.</li>
+                    <li class="fleche">On regarde toutes les combinaisons possibles avant la case de référence.</li>
                     <li class="fleche">On garde le meilleur score trouvé.</li>
-                    <li class="fleche">On recommence jusqu'à ce que le score brut max soit inférieur ou égal au score max trouvé.<br/>(Pour les petites instances le nombre de conflits minimum de l'échiquier est pris en compte pour éviter des combinaisons quand on a un nombre important de jetons).</li>
+                    <li class="fleche">On recommence jusqu'à ce que le score brut max soit inférieur ou égal au score max trouvé.<br/>(Pour les petites instances le nombre de conflits minimum de l'échiquier est pris en compte pour éviter de regarder certaines combinaisons quand on a un nombre important de jetons).</li>
 
                 </ul>
             </li>
@@ -87,7 +87,7 @@
                 </li>
                 <li class="fleche">On déplace après avoir parcouru toute l'échiquier le jeton si on a trouvé une meilleure case.</li>
                 <li class="fleche">On réitère l'opération pour tous les autres jetons.</li>
-                <li class="fleche">Si aucun des jetons ne s'est déplacés, alors le programme s'arrête, sinon on recommence l'opération.</li>
+                <li class="fleche">Si aucun des jetons ne s'est déplacé, alors le programme s'arrête, sinon on recommence l'opération.</li>
             </ul>
         </div>
         <div>
