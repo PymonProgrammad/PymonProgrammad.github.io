@@ -78,7 +78,7 @@
             </p>
             Principe : 
             <ul>
-                <li class="fleche">On garde en mémoire le score du jeton (nb points case - nb conflits de ce jeton avec les autres * p).</li>
+                <li class="fleche">On garde en mémoire le score du jeton (nombre points case - nombre conflits de ce jeton avec les autres * p).</li>
                 <li class="fleche">Pour chaque case vide, on compare le score obtenu comme ci le jeton était dessus.</li>
                 <li class="rien">
                     <ul>
@@ -109,7 +109,7 @@
         </figure>
         <p>
             Cette solution consiste à estimer et effectuer le meilleur mouvement de jeton possible et ce jusqu'à ce qu'on ne trouve plus de mouvement permettant d'augmenter le score.<br/><br/>
-            L'estimation se fait en trouvant le "pire" jeton et la "meilleure" case où le déplacer. Pour cela, on calcule le "score personnel" d'une case en additionant ses points
+            L'estimation se fait en trouvant le "pire" jeton et la "meilleure" case où le déplacer. Pour cela, on calcule le "score personnel" d'une case en additionnant ses points
             et les pénalités qui la concerne. Le pire jeton est donc celui avec le moins bon score personnel et la meilleure case est celle avec le meilleur score personnel,
             sans compter un éventuel conflit entre eux.<br/><br/>
             Cette méthode ne permet pas toujours de trouver une solution optimale, mais elle est rapide et peut-être répétée un grand nombre de fois en partant de combinaisons aléatoires.<br/><br/>
