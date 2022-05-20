@@ -20,31 +20,28 @@ th
     background-color: darkgray;
 }
 
-td.inst_settings
+td.parametres
 {
     width: 20px;
     text-align: center;
-    width: 5%;
-}
-
-td.inst_grid
-{
-    position: relative;
-    width: 15%;
-    padding-bottom: 15%;
-    background-clip: padding-box;
-}
-
-table.instance
-{
-    position: absolute;
-    table-layout: fixed;
-    border-collapse: collapse;
-    width: 100%;
-    height: 100%;
+    width: 10%;
 }
 
 td.instance
+{
+    background-clip: padding-box;
+}
+
+.instance table
+{
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+
+.instance table td
 {
     position: relative;
     width: 20%;
@@ -53,7 +50,7 @@ td.instance
     background-clip: padding-box;
 }
 
-td.instance .content
+.instance table .content
 {
     position: absolute;
     height: 100%;
@@ -61,14 +58,14 @@ td.instance .content
     text-align: center;
 }
 
-td.instance .content .table
+.instance table .content .table
 {
     display: table;
     width: 100%;
     height: 100%;
 }
 
-td.instance .content .table .cell
+.instance table .content .table .cell
 {
     display: table-cell;
     vertical-align: middle;
@@ -79,4 +76,9 @@ td.instance .content .table .cell
 td.jeton
 {
     background-color: lightcoral;
+}
+
+td.solution, td.score
+{
+    padding: 12px;
 }
