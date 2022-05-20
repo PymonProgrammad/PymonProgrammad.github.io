@@ -1,4 +1,5 @@
-import * as data from "./data.js";
+//import * as data from "./data.js";
+import data from "./data.json";
 
 function cree_grille(n, valeurs, cell)
 {
