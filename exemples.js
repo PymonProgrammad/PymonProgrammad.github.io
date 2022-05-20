@@ -1,6 +1,8 @@
+import * as data from "./data.js";
+
 function cree_grille(n, valeurs, cell)
 {
-    grille = document.createElement("table");
+    var grille = document.createElement("table");
     for (var i=0; i < n; ++i)
     {
         var rangee = document.createElement("tr");
@@ -25,8 +27,7 @@ function cree_grille(n, valeurs, cell)
 }
 
 var instance4a = document.getElementsByClassName("instance")[0];
-cree_grille(4, [[-6, 9, -2, 5],
-    [8, 2, -7, -6],
-    [-8, 2, -4, -3],
-    [-3, 3, -4, 7]],
-    instance4a);
+cree_grille(4,
+    data.probleme4a.grille,
+    instance4a
+);
