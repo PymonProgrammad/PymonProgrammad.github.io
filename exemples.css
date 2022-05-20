@@ -22,9 +22,8 @@ th
 
 td.parametres
 {
-    width: 20px;
     text-align: center;
-    width: 10%;
+    width: 20%;
 }
 
 td.instance
@@ -32,22 +31,32 @@ td.instance
     background-clip: padding-box;
 }
 
+td.instance>div
+{
+    overflow: auto;
+    max-width: 400px;
+    max-height: 400px;
+    margin: auto;
+    padding: 0;
+}
+
 .instance table
 {
     table-layout: fixed;
     border-collapse: collapse;
-    width: 200px;
-    height: 200px;
+    width: unset;
+    max-width: unset;
     margin: auto;
 }
 
 .instance table td
 {
     position: relative;
-    width: 20%;
-    padding-bottom: 20%;
     overflow: hidden;
     background-clip: padding-box;
+    width: 48px;
+    padding-bottom: 48px;
+    text-align: center;
 }
 
 .instance table .content

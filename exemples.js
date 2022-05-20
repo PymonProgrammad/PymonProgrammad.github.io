@@ -3,6 +3,8 @@ import { data } from "./data.js";
 function cree_grille(n, valeurs, cell)
 {
     var grille = document.createElement("table");
+    grille.style.width = (n * 48) + "px";
+    grille.style.height = (n * 48) + "px";
     for (var i=0; i < n; ++i)
     {
         var rangee = document.createElement("tr");
@@ -53,7 +55,8 @@ function cree_exemple(probleme)
     table.childNodes[2].childNodes[0].className = "instance";
     table.childNodes[2].childNodes[0].rowSpan = "2";
     table.childNodes[2].childNodes[0].colSpan = "3";
-    cree_grille(probleme.n, probleme.grille, table.childNodes[2].childNodes[0]);
+    table.childNodes[2].childNodes[0].appendChild(document.createElement("div"));
+    cree_grille(probleme.n, probleme.grille, table.childNodes[2].childNodes[0].childNodes[0]);
 
     table.childNodes[3].appendChild(document.createElement("td"));
     table.childNodes[3].childNodes[0].className = "score";
@@ -64,7 +67,7 @@ function cree_exemple(probleme)
         var pos = probleme.solution[i] - 1;
         var x = pos % probleme.n;
         var y = Math.floor(pos / probleme.n);
-        table.childNodes[2].childNodes[0].childNodes[0].childNodes[y].childNodes[x].className = "jeton";
+        table.childNodes[2].childNodes[0].childNodes[0].childNodes[0].childNodes[y].childNodes[x].className = "jeton";
     }
 
     document.getElementById("contenu").appendChild(table);
